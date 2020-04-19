@@ -1,0 +1,36 @@
+---
+layout:     post
+title:      "跨域问题解决"
+date:       2018-5-25 20:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - 后端开发
+---
+
+## 跨域问题解决
+ 
+在浏览器中发起http请求到后端的时候，如果域名不同，即使后端返回了结果，浏览器也会限制，浏览器这样做是为了保证安全，防止后端提供的服务被别的域名滥用
+
+解决跨域问题，有两种方式
+* 第一种把http请求做一个转发，因为http请求没有经过浏览器，所以就绕过了浏览器跨域的限制
+* 第二种，后端配置响应头 Access-Control-Allow-Origin 
+
+
+## 资料
+
+跨域介绍：
+https://www.debug8.com/javascript/t_3723.html
+
+cors介绍：
+https://www.ruanyifeng.com/blog/2016/04/cors.html
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,31 @@
+---
+layout:     post
+title:      "用golang写一个简单的爬虫"
+date:       2018-3-15 22:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - 爬虫
+    - golang
+---
+
+ 
+## 用golang写一个简单的爬虫
+
+使用go的goroutine和channel写爬虫相当方便。
+
+开一个主goroutine用于接收工作goroutine的爬取结果，用于将待爬取的url写入channel
+
+开多个工作goroutine，从channel中读取待爬取的url，并进行爬取
+
+代码仓库：
+https://github.com/zhang555/crawler1
+
+
+
+
+
+
+
+

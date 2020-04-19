@@ -1,0 +1,192 @@
+---
+layout:     post
+title:      "《数据结构与算法分析》"
+date:       2016-10-1 20:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - 算法 数据结构
+    - 技术书籍
+---
+
+
+
+## 表
+
+#### 双链表
+
+
+#### 队列
+
+
+#### 栈
+
+
+
+## 树
+
+
+#### avl 平衡搜索二叉树
+
+
+#### b树
+磁盘比内存慢很多倍，在内存无法将数据完全存下来的情况下，想要高效的存取数据，就要用到b树
+
+
+B树是一种平衡的树，能够保持数据有序。
+
+这种数据结构能够让查找数据、顺序访问、插入数据及删除的动作，都在对数时间内完成
+
+
+#### b+树
+
+b+树的叶子节点可以通过指针找到下一个叶子节点。
+
+
+#### trie 前缀树
+
+https://github.com/zhang555/algorithmDataStructure/blob/master/tree/trie/trie.go
+
+
+## 散列
+
+散列支持常数时间的插入和查找。
+
+散列的实现要有散列函数。
+
+冲突解决办法：
+* 分离链表法，冲突之后将新元素插入链表
+* 探测散列表：线性探测，平方探测，双散列
+
+散列扩容：rehash 再散列。
+
+
+
+## 堆 优先队列
+
+堆 至少支持两个操作：入队，deleteMin（找出优先级最高的）
+
+#### 二叉堆
+
+https://github.com/zhang555/algorithmDataStructure/blob/master/data/heap/heap.go
+
+
+
+## 排序
+
+
+![](/img/data-structure/sort.png)
+
+
+冒泡排序
+
+https://github.com/zhang555/algorithmDataStructure/blob/master/algorithm/sort/bubble_sort.go
+
+选择排序
+
+https://github.com/zhang555/algorithmDataStructure/blob/master/algorithm/sort/selection_sort.go
+
+插入排序
+
+https://github.com/zhang555/algorithmDataStructure/blob/master/algorithm/sort/insert_sort.go
+
+希尔排序
+
+https://github.com/zhang555/algorithmDataStructure/blob/master/algorithm/sort/shell_sort.go
+
+归并排序
+
+https://github.com/zhang555/algorithmDataStructure/blob/master/algorithm/sort/merge_sort.go
+
+
+快速排序
+
+https://github.com/zhang555/algorithmDataStructure/blob/master/algorithm/sort/quick_sort.go
+
+堆排序
+
+https://github.com/zhang555/algorithmDataStructure/blob/master/algorithm/sort/heap_sort.go
+
+计数排序
+
+https://github.com/zhang555/algorithmDataStructure/blob/master/algorithm/sort/count_sort.go
+
+
+桶排序
+https://github.com/zhang555/algorithmDataStructure/blob/master/algorithm/sort/bucket_sort.go
+
+
+## 图
+
+图的表示方法：
+* 邻接矩阵
+* 关联矩阵
+* 弧表示法
+* 邻接表
+* 星形
+
+
+https://blog.csdn.net/woaidapaopao/article/details/51732947
+
+https://github.com/zhang555/algorithmDataStructure/tree/master/graph/graphnotation
+
+
+#### 拓扑排序
+对有向无环图的顶点的排序
+
+https://github.com/zhang555/algorithmDataStructure/tree/master/graph/topologicalsort
+
+#### 最短路径
+
+https://github.com/zhang555/algorithmDataStructure/blob/master/graph/shortestpath/short1/short_test.go
+
+
+## 内存置换算法
+
+clock 时钟置换算法：
+
+https://github.com/zhang555/algorithmDataStructure/blob/master/algorithm/memory/clock/clock1/clock.go
+
+
+
+lru 最近最少使用， get set 时间复杂度都是 O(1)， 使用map和双链表实现
+
+https://github.com/zhang555/algorithmDataStructure/tree/master/algorithm/memory/lru
+
+
+lfu 最不经常使用，需要去除页时，去除使用频率最少的，如果使用频率相同，删除最近最少使用的。
+
+https://leetcode-cn.com/problems/lfu-cache/
+
+https://github.com/zhang555/algorithmDataStructure/tree/master/algorithm/memory/lfu
+
+
+## 其他数据结构
+
+#### 位图 bitmap
+
+
+
+#### 布隆过滤器 bloom filter
+
+判断一个元素一定没有 或者 可能有。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

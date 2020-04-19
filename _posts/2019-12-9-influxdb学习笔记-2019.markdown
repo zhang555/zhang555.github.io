@@ -1,0 +1,181 @@
+---
+layout:     post
+title:      "InfluxDB学习笔记"
+date:       2019-12-09 20:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - 时序数据库
+    - InfluxDB
+    - 数据库
+---
+
+InfluxDB是go编写的时序数据库，用来处理时序数据挺方便的。 
+
+## 启动InfluxDB
+```
+docker run \
+    -p 8086:8086 \
+    -p 8089:8089 \
+    -p 8083:8083 \
+    -p 2003:2003 \
+    --rm \
+    --name influxdb \
+    -v /Users/abc/demo/influxdb/influxdb.conf:/etc/influxdb/influxdb.conf:ro \
+    influxdb -config /etc/influxdb/influxdb.conf
+```
+
+## insert  
+
+```
+insert <measurement>[,<tag-key>=<tag-value>...] <field-key>=<field-value>[,<field2-key>=<field2-value>...] [unix-nano-timestamp]
+measurement，相当于mysql中的表
+tag-key是字段名，tag是有索引的，field-key是没有索引的
+tag-key和field-key中间有一个空格
+
+insert cpu,host=server1,region=us_west value=0.64
+insert cpu,host=server2,region=us_west value=0.64
+insert cpu,host=server2,region=us_west value=0.12
+insert cpu,host=server2,region=us_west value=0.12 1568356126197381900
+insert cpu,host=server1,region=us_west value=0.12 1568356126197381900
+insert cpu,host=server1,region=us_west value=0.33 1568356126197381900
+
+如果time一样 tag也一样 数据会被覆盖
+```
+
+```
+如果只有 tag  没有 field ， 会报错
+insert payment,device=mobile
+ERR: {"error":"unable to parse 'payment,device=mobile ': invalid field format"}
+```
+
+
+```
+insert payment method=1
+insert payment method=1i
+
+如果先插入了float类型，  再插入 int类型 就会报错
+ERR: {"error":"partial write: field type conflict: input field \"method1\" on measurement \"payment\" is type integer, already exists as type float dropped=1"}
+```
+
+## select 
+
+
+```
+SELECT COUNT("water_level") FROM h2o_feet
+
+SELECT * FROM "h2o_feet"
+SELECT COUNT(*) FROM "h2o_feet"
+SELECT min(time) FROM "h2o_feet"
+SELECT time , *  FROM "h2o_feet" limit 10
+SELECT time , *  FROM "h2o_feet" order by time desc  limit 1
+SELECT time , *  FROM "h2o_feet" order by time asc  limit 1
+
+SELECT time , *  FROM "h2o_pH" order by time desc  limit 1
+SELECT time , *  FROM "h2o_pH" order by time asc  limit 1
+```
+
+```
+SELECT * FROM h2o_feet LIMIT 5
+SELECT * FROM "NOAA_water_database"..h2o_feet LIMIT 5
+SELECT max("water_level") FROM "NOAA_water_database"..h2o_feet LIMIT 100
+SELECT max("water_level") FROM "NOAA_water_database"..h2o_feet group by time(1d) LIMIT 1000
+SELECT max("water_level") FROM "NOAA_water_database"..h2o_feet group by time(1d)
+SELECT max("water_level") FROM "NOAA_water_database"..h2o_feet group by time(1h)
+```
+
+```
+SELECT COUNT("water_level") FROM "h2o_feet" WHERE time >= '2015-08-17T23:48:00Z' AND time <= '2015-08-18T00:54:00Z' GROUP BY time(12m),* fill(200) LIMIT 7 SLIMIT 1
+SELECT COUNT("water_level") FROM "h2o_feet" WHERE time >= '2015-08-17T23:48:00Z'   GROUP BY time(12m),* fill(200) LIMIT 7 SLIMIT 1
+SELECT COUNT("water_level") FROM "h2o_feet"    GROUP BY time(12m),* fill(200) LIMIT 7 SLIMIT 1
+SELECT COUNT("water_level") FROM "h2o_feet"    GROUP BY time(12m)  LIMIT 7 SLIMIT 1
+```
+
+
+```
+SELECT COUNT(DISTINCT("level description")) FROM "h2o_feet"
+
+SELECT COUNT(DISTINCT("level description")),count(*) FROM "h2o_feet"
+
+SELECT COUNT(DISTINCT("level description")),count(*) FROM "h2o_feet"  GROUP BY "level description"
+```
+
+
+## continuous queries 
+
+Continuous queries (CQ) are InfluxQL queries that run automatically and periodically on realtime data and store query results in a specified measurement.
+
+连续查询自动的周期的对实时数据执行查询，并将查询结果放到指定measurement
+
+用CQ来实现一些统计可以说是极其方便
+
+如果用mysql做统计的话，要建表，要建字段，还要写统计的sql语句
+
+如果用InfluxDB的CQ，只要一条命令就可以了
+
+```
+CREATE CONTINUOUS QUERY <cq_name> ON <database_name>
+BEGIN
+  <cq_query>
+END
+```
+
+```
+create continuous query billed_30 on payment begin select sum(billed) into billed_30min from payment group by time(30m) end
+
+drop continuous query cq_name on db_name
+```
+
+
+## retention policies
+
+Describes how long InfluxDB keeps data (duration), how many copies of the data to store in the cluster (replication factor), and the time range covered by shard groups (shard group duration). 
+
+RPs are unique per database and along with the measurement and tag set define a series.
+
+保留策略定义了数据的保留时长，结合CQ一起使用，非常方便
+
+```
+show retention policies on db_name
+
+create retention policy "policy1" on "policy1" duration 1h replication 1 default
+
+drop retention policy "policy1" on "policy1"
+```
+
+
+## 设置时间格式
+```
+precision rfc3339
+precision ns
+precision u
+precision ms
+precision s
+precision m
+precision h
+```
+
+
+## show 
+```
+show measurements
+show tag keys
+show field keys
+show series
+show series from average_temperature
+```
+
+
+## 存储引擎
+
+InfluxDB一开始存储引擎用的是LevelDB，后来换成了BoltDB
+
+
+## 参考资料
+- [https://docs.influxdata.com/influxdb/v1.7/](https://docs.influxdata.com/influxdb/v1.7/)
+- [https://docs.influxdata.com/influxdb/v1.7/concepts/storage_engine/#boltdb-and-mmap-b-trees](https://docs.influxdata.com/influxdb/v1.7/concepts/storage_engine/#boltdb-and-mmap-b-trees)
+
+
+
+

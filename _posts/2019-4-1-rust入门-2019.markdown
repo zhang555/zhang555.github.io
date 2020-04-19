@@ -1,0 +1,313 @@
+---
+layout:     post
+title:      "rust入门"
+date:       2019-4-1 20:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - 系统编程
+    - rust
+---
+
+
+## 内存管理
+
+c c++ 使用手动管理内存 
+
+go java 使用自动垃圾回收方案
+
+rust使用和上面两种方案都不同的垃圾回收方式。
+
+
+#### 所有权 ownership 
+
+对于rust，明确数据在堆上还是在栈上，很重要
+
+stack 栈：存取大小确定的数据，比如程序，先进后出
+
+heap 堆 ：编译期不知道确定大小的数据，存放在堆上
+
+入栈出栈比分配堆内存快，因为操作系统不需要去找空间，直接在栈顶分配即可
+
+
+所有权的三个规则：
+* Each value in Rust has a variable that’s called its owner.
+* There can only be one owner at a time.
+* When the owner goes out of scope, the value will be dropped.
+
+变量的作用域：
+```
+{                      // s is not valid here, it’s not yet declared
+    let s = "hello";   // s is valid from this point forward
+
+    // do stuff with s
+}                      // this scope is now over, and s is no longer valid
+```
+s 在作用域内是有效的，超出作用域就失效。
+
+当变量的owner超出作用域，其对应的内存，就释放掉。
+Rust takes a different path: the memory is automatically returned once the variable that owns it goes out of scope. 
+
+```
+{
+    let s = String::from("hello"); // s is valid from this point forward
+
+    // do stuff with s
+}                                  // this scope is now over, and s is no
+                                   // longer valid
+```
+ 
+
+转移所有权：
+```
+let s1 = String::from("hello");
+let s2 = s1;
+
+println!("{}, world!", s1);
+
+
+
+error[E0382]: use of moved value: `s1`
+ --> src/main.rs:5:28
+  |
+3 |     let s2 = s1;
+  |         -- value moved here
+4 |
+5 |     println!("{}, world!", s1);
+  |                            ^^ value used here after move
+  |
+  = note: move occurs because `s1` has type `std::string::String`, which does
+  not implement the `Copy` trait
+```
+String的所有权从s1转到s2， s1失效，不能再使用。
+
+
+#### References and Borrowing
+
+References:
+
+```
+fn main() {
+    let s1 = String::from("hello");
+
+    let len = calculate_length(&s1);
+
+    println!("The length of '{}' is {}.", s1, len);
+}
+
+fn calculate_length(s: &String) -> usize {
+    s.len()
+}
+```
+引用一个值，不拿所有权。
+These ampersands are references, and they allow you to refer to some value without taking ownership of it.
+
+把引用作为函数的参数，称为借用。
+We call having references as function parameters borrowing
+
+
+Mutable References：
+```
+fn main() {
+    let mut s = String::from("hello");
+
+    change(&mut s);
+}
+
+fn change(some_string: &mut String) {
+    some_string.push_str(", world");
+}
+```
+
+## 错误处理
+
+rust的错误处理很优雅，一个问号搞定。
+
+```rust
+use std::io;
+use std::io::Read;
+use std::fs::File;
+
+fn read_username_from_file() -> Result<String, io::Error> {
+    let mut s = String::new();
+
+    File::open("hello.txt")?.read_to_string(&mut s)?;
+
+    Ok(s)
+}
+```
+如果打开文件返回error，就立刻返回这个函数。大大简化了错误处理。
+
+
+## 泛型
+泛型是更高级别的抽象，可以提高代码的表达能力。在goland中没有泛型，有时需要复制粘贴来实现一些功能，不太方便。当然go中也有对应的第三方的解决方案，不过还是没有原生的泛型好用。
+
+rust泛型：
+```
+struct Point<T> {
+    x: T,
+    y: T,
+}
+
+fn main() {
+    let integer = Point { x: 5, y: 10 };
+    let float = Point { x: 1.0, y: 4.0 };
+}
+```
+x和y是同一种类型，如果是int就要都是int。
+
+compile error： x y类型不一样。
+```
+struct Point<T> {
+    x: T,
+    y: T,
+}
+
+fn main() {
+    let wont_work = Point { x: 5, y: 4.0 };
+}
+```
+
+
+#### lifetime  
+every reference in Rust has a lifetime, which is the scope for which that reference is valid. 
+
+
+使用生命周期防止悬空指针
+Preventing Dangling References with Lifetimes
+
+compile error：
+```
+{
+    let r;
+
+    {
+        let x = 5;
+        r = &x;
+    }
+
+    println!("r: {}", r);
+}
+```
+
+
+使用生命周期，保证三个引用最少保证生命周期相同。
+```
+fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
+}
+```
+
+这个函数的签名，告诉rust编译器，三个变量 生命周期最少需要是 'a 
+
+在函数签名上指定生命周期，并不改变变量的生命周期，而是告诉编译器如果不满足条件，不让传入。
+
+
+## Trait
+
+Trait 类似go中的 interface
+
+```
+pub trait Summary {
+    fn summarize(&self) -> String;
+}
+```
+
+使用特性绑定有条件地实现方法
+Using Trait Bounds to Conditionally Implement Methods:
+
+```
+use std::fmt::Display;
+
+struct Pair<T> {
+    x: T,
+    y: T,
+}
+
+impl<T> Pair<T> {
+    fn new(x: T, y: T) -> Self {
+        Self {
+            x,
+            y,
+        }
+    }
+}
+
+impl<T: Display + PartialOrd> Pair<T> {
+    fn cmp_display(&self) {
+        if self.x >= self.y {
+            println!("The largest member is x = {}", self.x);
+        } else {
+            println!("The largest member is y = {}", self.y);
+        }
+    }
+}
+```
+所有类型的Pair都有new方法，但是只有实现了  Display  PartialOrd 特性的 Pair<T> 才有cmp_display方法。
+
+
+
+
+
+## 智能指针
+
+Using a Box<T> to Store Data on the Heap
+
+```
+fn main() {
+    let b = Box::new(5);
+    println!("b = {}", b);
+}
+```
+
+
+Rc<T>, the Reference Counted Smart Pointer
+
+```
+enum List {
+    Cons(i32, Rc<List>),
+    Nil,
+}
+
+use crate::List::{Cons, Nil};
+use std::rc::Rc;
+
+fn main() {
+    let a = Rc::new(Cons(5, Rc::new(Cons(10, Rc::new(Nil)))));
+    let b = Cons(3, Rc::clone(&a));
+    let c = Cons(4, Rc::clone(&a));
+}
+```
+
+
+## macro
+
+rust中两种宏：
+* declarative macros with macro_rules! 
+* three kinds of procedural macros: Custom #[derive] macros ， Attribute-like macros，Function-like macros
+
+
+宏可以做函数不能做的东西
+
+函数签名必须指定参数的个数和类型。宏不需要
+
+宏可以在编译之前展开。
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+

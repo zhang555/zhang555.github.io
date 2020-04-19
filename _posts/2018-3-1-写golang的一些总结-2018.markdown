@@ -1,0 +1,200 @@
+---
+layout:     post
+title:      "写golang的一些总结"
+date:       2018-3-1 22:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - 后端开发
+    - golang
+---
+
+
+
+## 写golang时容易出错的地方
+
+
+#### goroutine
+多个goroutine共享一个变量：
+
+```
+错误：
+func TestGoRoutine1(t *testing.T) {
+	for i := 0; i < 10; i++ {
+		go func() {
+			log.Println(i)
+		}()
+	}
+	time.Sleep(time.Second)
+}
+```
+
+
+```
+正确：
+func TestGoRoutine2(t *testing.T) {
+	for i := 0; i < 10; i++ {
+		go func(i2 int) {
+			log.Println(i2)
+		}(i)
+	}
+	time.Sleep(time.Second)
+}
+
+```
+
+
+#### panic recover
+
+
+recover必须在defer里面：
+
+
+```
+错误：
+func checkPanic() {
+	if r := recover(); r != nil {
+		log.Println(`recover1 `)
+	}
+}
+
+func TestCheck2(t *testing.T) {
+	checkPanic()
+	var s []int
+	log.Println(s[1])
+}
+```
+
+
+```
+正确：
+func checkPanic() {
+	if r := recover(); r != nil {
+		log.Println(`recover1 `)
+	}
+}
+
+func TestCheck1(t *testing.T) {
+	defer checkPanic()
+	var s []int
+	log.Println(s[1])
+}
+```
+
+#### 变量
+
+全局变量不能用这种方式声明：
+```
+str0 := "aaa"
+```
+
+
+map必须赋值一个实例才能写入数据：
+```
+错误：
+func TestMap1(t *testing.T) {
+	var (
+		m map[int]int
+	)
+	m[1] = 1
+}
+```
+
+
+map不是并发安全的。sync.Map是并发安全的。
+
+
+slice 不是并发安全的，
+
+
+两种for循环，遍历string，给出的类型是不一样的。第一种按照UTF-8输出，第二种按照字节输出。
+```
+func TestName1(t *testing.T) {
+	var (
+		s = `hello,中`
+	)
+
+	for _, value := range s {
+		fmt.Println(reflect.TypeOf(value))
+		break
+	}
+	//int32
+
+	for i := 0; i < len(s); i++ {
+		fmt.Println(reflect.TypeOf(s[i]))
+		break
+	}
+	//uint8
+}
+
+```
+
+#### go 标准库
+
+
+http请求一定要调用关闭，不然会泄露
+```
+func TestHTTP(t *testing.T) {
+
+	resp, err := http.Get(`http://www.baidu.com`)
+	if err != nil {
+		log.Fatal(err)
+	}
+	//一定要关闭，不然泄漏。
+	defer resp.Body.Close()
+
+	byteSlice1, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	log.Println(string(byteSlice1))
+}
+
+```
+
+使用rand要设置一个种子：
+```
+rand.Seed(time.Now().Unix())
+```
+
+time parse的时候要设置时区：
+```
+func TestParse(t *testing.T) {
+	const (
+		TimeFormat001 = "20060102150405"
+	)
+
+	t1, _ := time.Parse(TimeFormat001, "20190402120000")
+	log.Println(t1)
+
+	t2, _ := time.ParseInLocation(TimeFormat001, "20190402120000", time.Local)
+	log.Println(t2)
+}
+```
+
+
+## go test
+
+go test 可以查看程序的测试覆盖率，还可以生成html，显示哪些代码没有测试到
+
+```
+测试当前目录下所有文件，并生成coverprofile
+go test ./... -coverprofile=coverprofile
+
+根据coverprofile 生成html
+go tool cover -html=coverprofile -o coverage.html
+
+
+```
+
+
+ 
+
+
+
+
+
+
+

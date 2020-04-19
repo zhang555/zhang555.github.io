@@ -1,0 +1,158 @@
+---
+layout:     post
+title:      "IIC协议 SPI协议"
+date:       2013-12-1 20:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - IIC
+    - SPI
+---
+
+## IIC协议
+
+IIC是硬件通信协议。
+
+将主控芯片和传感器芯片之间用两根线进行连接，一根线是时钟线SCL，一根线是数据线SDA。有了这两根线就可以实现主控芯片和传感器芯片之间的通信。
+
+主控芯片可以将io口设置为输出模式，或者输入模式。输出模式可以将io口设置为高电平或者低电平，输入模式可以检测线是高电平还是低电平。
+
+IIC是半双工通信
+
+时序图：
+![](/img/hardware/iic.svg)
+![](/img/hardware/iic.png)
+
+
+
+时钟线保持高电平的时候，数据线来个下降沿，就代表通信的开始。
+
+```
+//产生IIC起始信号
+void IIC_Start(void)
+{
+	SDA_OUT();     //sda线输出
+	IIC_SDA=1;	  	  
+	IIC_SCL=1;
+	delay_us(4);
+ 	IIC_SDA=0;//START:when CLK is high,DATA change form high to low 
+	delay_us(4);
+	IIC_SCL=0;//钳住I2C总线，准备发送或接收数据 
+}	 
+```
+
+
+时钟线保持高电平的时候，数据线来个上升沿，就代表通信的结束。
+
+```
+//产生IIC停止信号
+void IIC_Stop(void)
+{
+	SDA_OUT();//sda线输出
+	IIC_SCL=0;
+	IIC_SDA=0;//STOP:when CLK is high DATA change form low to high
+ 	delay_us(4);
+	IIC_SCL=1; 
+	IIC_SDA=1;//发送I2C总线结束信号
+	delay_us(4);							   	
+}
+```
+
+读一个字节流程：
+将SCL设置为低电平，再设置为高电平，再读取SDA线上的电平，循环8次，就读到了传感器芯片发来的一个字节。
+```
+//读1个字节，ack=1时，发送ACK，ack=0，发送nACK   
+u8 IIC_Read_Byte(unsigned char ack)
+{
+	unsigned char i,receive=0;
+	SDA_IN();//SDA设置为输入
+	for(i=0;i<8;i++ )
+	{
+        IIC_SCL=0; 
+        delay_us(2);
+		IIC_SCL=1;
+        receive<<=1;
+        if(READ_SDA)receive++;   
+		delay_us(1); 
+   }					 
+    if (!ack)
+        IIC_NAck();//发送nACK
+    else
+        IIC_Ack(); //发送ACK   
+    return receive;
+}
+
+```
+
+
+写一个字节流程：
+```
+//IIC发送一个字节	  
+void IIC_Send_Byte(u8 txd)
+{                        
+    u8 t;   
+	SDA_OUT(); 	    
+    IIC_SCL=0;//拉低时钟开始数据传输
+    for(t=0;t<8;t++)
+    {              
+        IIC_SDA=(txd&0x80)>>7;
+        txd<<=1; 	  
+		delay_us(2);   //对TEA5767这三个延时都是必须的
+		IIC_SCL=1;
+		delay_us(2); 
+		IIC_SCL=0;	
+		delay_us(2);
+    }	 
+} 	 
+```
+
+IIC协议可以用编程来实现，也可以用硬件来实现，但是stm32的硬件实现IIC不太稳定，推荐用软件来实现。
+
+
+
+
+## 资料
+
+wiki：
+https://zh.wikipedia.org/wiki/I%C2%B2C
+
+
+## SPI协议
+
+SPI也是硬件通信协议，它是全双工的。
+
+主要的三根线：
+* SCLK 时钟线
+* MOSI master向slave发数据
+* MISO slave向master发数据
+
+SPI写数据和读数据是同时的，当时钟线跳变的时候，master向slave发数据，slave向master发数据
+
+
+![](/img/hardware/spi.png)
+
+
+SPI写一个字节 或者读一个字节
+```
+u8 SPI1_ReadWriteByte(u8 TxData)
+{
+	u8 retry=0;				 	
+	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET) //检查指定的SPI标志位设置与否:发送缓存空标志位
+	{
+		retry++;
+		if(retry>200)return 0;
+	}			  
+	SPI_I2S_SendData(SPI1, TxData); //通过外设SPIx发送一个数据
+	retry=0;
+
+	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET)//检查指定的SPI标志位设置与否:接受缓存非空标志位
+	{
+		retry++;
+		if(retry>200)return 0;
+	}	  					
+	return SPI_I2S_ReceiveData(SPI1); //返回通过SPIx最近接收的数据					    
+}
+
+```
+

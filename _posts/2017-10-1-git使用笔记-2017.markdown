@@ -1,0 +1,63 @@
+---
+layout:     post
+title:      "git使用笔记"
+date:       2017-10-1 20:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - git
+---
+
+## git
+ 
+
+## 撤销 merge commit 
+
+比如在master分支，把一个坏的分支合并进来了，而且又提交了几个正常的commit，这时需要把坏的merge commit撤销掉，具体操作：
+
+
+假设坏的merge commit 是 8817d1a0，执行：
+```
+git show  8817d1a0
+```
+
+可以看到两个hash：
+```
+Merge: b24e6fe 0a3bc59
+```
+
+这两个hash，b24e6fe是master分支，0a3bc59是坏分支
+
+保留master分支，revert坏分支：
+```
+git revert -m 1  -n 8817d1a0
+
+```
+
+1代表保留左边节点，2代表保留右边节点
+
+
+最后commit即可。
+
+
+参考资料：
+- [https://blog.csdn.net/jacolin/article/details/49280511](https://blog.csdn.net/jacolin/article/details/49280511)
+- [https://www.jianshu.com/p/6d1d9871ced0](https://www.jianshu.com/p/6d1d9871ced0)
+
+
+
+
+## 撤销一个commit，并同步到远程
+
+```
+撤销一个commit：
+git reset --hard HEAD~1  
+
+同步到远程（需要有强推权限，有可能把别人的提交覆盖掉）：
+git push -f
+
+```
+
+
+ 

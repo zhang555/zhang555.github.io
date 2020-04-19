@@ -1,0 +1,69 @@
+---
+layout:     post
+title:      "给TiDB提交代码"
+date:       2020-2-8 20:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - TiDB
+---
+
+## 需求
+
+在TiDB的issue上看到一个任务，有点感兴趣，就试了一下。
+
+issue地址：https://github.com/pingcap/tidb/issues/14567
+
+
+主要需求就是：
+
+admin show $table_name next_row_id  这个命令，需要super权限， 
+
+实现一个 SHOW TABLE $table_name NEXT_ROW_ID ，只用select权限。
+
+
+## 实现
+
+首先fork parser项目，在 parser.y  文件中加入几行代码
+
+```
+|	"SHOW" "TABLE" TableName "NEXT_ROW_ID"
+	{
+		$$ = &ast.ShowStmt{
+			Tp:    ast.ShowTableNextRowId,
+			Table: $3.(*ast.TableName),
+		}
+	}
+```
+
+第一行就代表加一个新的语法，对用户输入的字符串进行匹配。
+
+ast.ShowTableNextRowId用来标识是哪个语法。
+
+Table: $3.(*ast.TableName),   把匹配到的表名放到变量里面。
+
+具体代码见 https://github.com/pingcap/parser/pull/738/files
+
+
+
+fork TiDB项目，找到planbuilder.go文件，里面有buildShow 方法， 这个方法是为show 开头的语法进行构建计划的，
+
+加入 ast.ShowTableNextRowId 常量的判断， 里面的执行逻辑和 admin show $table_name next_row_id 的逻辑一样，
+
+权限改成select权限：
+
+```
+b.visitInfo = appendVisitInfo(b.visitInfo, mysql.SelectPriv, show.Table.Schema.L, show.Table.Name.L, "", ErrPrivilegeCheckFail)
+```
+
+具体代码见 https://github.com/pingcap/tidb/pull/14697/files
+
+至此，这个简单的需求就基本实现了。
+
+
+## 相关资料
+
+- [https://zhuanlan.zhihu.com/p/34770765](https://zhuanlan.zhihu.com/p/34770765)
+
+

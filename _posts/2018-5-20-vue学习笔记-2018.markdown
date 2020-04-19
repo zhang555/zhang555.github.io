@@ -1,0 +1,78 @@
+---
+layout:     post
+title:      "vue学习笔记"
+date:       2018-5-20 20:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - vue
+---
+
+## vue
+
+vue是一个前端框架，基本特性是双向绑定，增加了前端开发的效率。
+
+
+## 基本使用
+
+指令：带有v-前缀的特殊属性，它的值一般是单个js表达式。
+
+常见指令：v-if  v-bind  v-on  v-model 
+
+
+计算属性：对于任何复杂逻辑，都应该使用计算属性
+
+
+侦听器：当需要在数据变化时进行异步操作，就使用侦听器
+
+
+列表渲染：v-for
+
+事件处理：v-on
+
+
+## vue-router 
+
+vue-router是路由管理器
+
+编程式导航：
+```
+router.push(location, onComplete?, onAbort?)
+```
+使用router对象的方法，进行页面的跳转。
+
+
+## vuex
+
+vuex用来保存全局的变量
+
+
+## elementUI 
+
+elementUI是基于vue的一套组件库，用起来很方便。
+
+
+## vue cli 
+
+vue cli 可以生成一个vue工程的模板
+
+技术胖的教程：https://jspang.com/detailed?id=26#toc24
+
+
+
+## 示例
+
+https://github.com/zhang555/mongowebdemo1
+
+https://github.com/zhang555/gomicrodemo1
+
+## 其他
+
+Vue 中如何引入第三方 JS 库
+https://blog.csdn.net/csdn_yudong/article/details/78795743
+
+
+
+
+

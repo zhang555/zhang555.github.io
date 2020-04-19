@@ -1,0 +1,103 @@
+---
+layout:     post
+title:      "分布式链路追踪 jaeger"
+date:       2020-4-1 20:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - 微服务
+    - 后端开发
+    - jaeger
+---
+
+## jaeger 
+在微服务的场景下，用户的一个请求可能经过多个服务，多个机器，如果想要查询这一个请求在哪个环节耗时比较高，不太方便，这时就出现了用于分布式链路追踪的工具
+
+
+## jaeger 架构图
+
+
+![](/img/jaeger/jaeger.png)
+
+
+四个组件：
+* elasticsearch：用于存储
+* collector：将收集到的数据写入es
+* agent：每个机器部署一个，将client写入的数据push给collector
+* query：查询es中的数据，提供展示页面
+
+jaeger的主要思路就是，在接受到请求时，在context里面写入一个key，这个key是从头传到尾的，在最后的时候，写入es里面。
+
+
+
+
+## jaeger搭建
+jaeger的搭建也是比较简单，执行下面的脚本即可。
+
+```
+ip += 192.168.1.101
+collectorPort += 14250
+esPort += 9200
+
+es:
+   @docker run \
+      -d \
+      --rm \
+      --name es \
+      -p 9200:9200 \
+      -p 9300:9300 \
+      -e "discovery.type=single-node" \
+      elasticsearch:7.6.1
+
+collector:
+   @docker run \
+      -d \
+      --rm \
+      --name jaeger-collector \
+      -p 14250:14250/tcp \
+      -e SPAN_STORAGE_TYPE=elasticsearch \
+      jaegertracing/jaeger-collector:1.17 \
+      --es.server-urls http://${ip}:${esPort}/
+
+agent:
+   @docker run \
+      -d \
+      --rm \
+      --name jaeger-agent \
+      -p 5775:5775/udp \
+      -p 5778:5778/udp \
+      -p 6831:6831/udp \
+      -p 6832:6832/udp \
+      jaegertracing/jaeger-agent:1.17 --reporter.grpc.host-port  ${ip}:${collectorPort}
+
+query:
+   @docker run \
+      -d \
+      --rm \
+      --name jaeger-query \
+      -p 16686:16686 \
+      -p 16687:16687 \
+      -e SPAN_STORAGE_TYPE=elasticsearch \
+      -e ES_SERVER_URLS=http://${ip}:${esPort} \
+      jaegertracing/jaeger-query:1.17
+```
+
+
+
+
+## 展示
+
+可以根据trace id 查询，可以根据service查询。 
+右边展示的是 查询结果中 耗时的分布
+![](/img/jaeger/show1.png)
+
+点进具体请求，可以看到一个请求经过了哪些微服务，耗时多少。
+
+![](/img/jaeger/show2.png)
+
+
+
+
+
+

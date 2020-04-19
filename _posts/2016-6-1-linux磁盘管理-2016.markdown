@@ -1,0 +1,60 @@
+---
+layout:     post
+title:      "linux磁盘管理"
+date:       2016-6-1 20:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - linux
+---
+
+## LVM  Logical Volume Manager 逻辑卷管理
+
+lvm通过将底层物理硬盘抽象分装起来，以逻辑卷的形式表现给上层系统，逻辑卷的大小可以动态调整，不会丢失数据。
+
+
+![](/img/linux/lvm.png)
+
+
+* PV physical volume ： 物理卷，每个磁盘可以格式化为pv，pv可以切分成pe
+* PE  physical extend： 物理扩展
+* VG volume group ：卷组，切分成的pe，全部都在vg里面
+* LV logical volume：逻辑卷，lv由pe组成，pe可以来自不同的磁盘，lv格式化后就可以挂载使用了。lv的扩容缩容就是增加减少pe的数量。
+
+相关命令：
+
+command | pv | vg | lv 
+---- | ------------- | ------------
+display | pvdisplay  | vgdisplay | lvdisplay  
+s | pvs  | vgs | lvs
+create | pvcreate | vgcreate |  lvcreate
+remove | pvremove | vgremove |  lvremove
+resize | pvresize |  |  lvresize
+extend |  | vgextend |  lvextend
+reduce |  | vgreduce |  lvreduce
+change | pvchange | vgchange | lvchange
+
+
+今天虚拟机的磁盘容量不够了，我通过VMware给虚拟机扩充磁盘，扩充后发现虚拟机内部还要进行配置。
+
+```
+parted /dev/sda resizepart 2 80.0GB  
+将一个分区的容量扩充到指定大小
+
+pvresize /dev/sda2   
+将扩充的容量放到lvm中
+
+lvextend -r -l +100%FREE /dev/mapper/centos-root 
+将lv的容量扩大
+```
+
+通过上面的命令，解决了这个问题。
+
+
+## 参考资料
+- [https://linux.cn/article-9536-1.html](https://linux.cn/article-9536-1.html)
+- [https://unix.stackexchange.com/questions/138090/cant-resize-a-partition-using-resize2fs](https://unix.stackexchange.com/questions/138090/cant-resize-a-partition-using-resize2fs)
+- [https://serverfault.com/questions/692340/how-can-i-tell-pvresize-to-expand-a-physical-volume-to-include-all-available-spa](https://serverfault.com/questions/692340/how-can-i-tell-pvresize-to-expand-a-physical-volume-to-include-all-available-spa)
+
+

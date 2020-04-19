@@ -1,0 +1,44 @@
+---
+layout:     post
+title:      "TiDB学习笔记"
+date:       2018-6-20 20:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - TiDB
+    - 开源
+    - 分布式数据库
+    - 数据库
+---
+
+## TiDB
+TiDB是开源分布式数据，根据谷歌论文实现，可以横向扩容，支持分布式事务，高度兼容MySQL。
+
+![](/img/tidb/tidb.png)
+
+PD：负责发号，使用golang实现，使用raft保证线性一致性
+
+TiDB：处理sql，下发请求给TiKV，收到数据，返回结果，使用golang实现
+
+TiKV：负责存储数据，使用raft保证线性一致性，底层使用RocksDB做kv存储引擎，
+
+![](/img/tidb/tidb-layers.png)
+
+
+
+
+#### 如何实现分布式发号器
+
+首先用raft保证强一致性，leader取一段号，把这一段号写到集群中，后面发号都是从内存中取，这样又保证了高可用，性能又不差。
+
+参考资料：
+- [https://pingcap.com/blog-cn/placement-driver/](https://pingcap.com/blog-cn/placement-driver/)
+ 
+
+
+
+
+
+
+

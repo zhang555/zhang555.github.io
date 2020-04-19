@@ -1,0 +1,38 @@
+---
+layout:     post
+title:      "nginx配置https"
+date:       2018-6-15 20:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - 后端开发
+---
+
+## nginx配置https
+
+https是加密的http，在应用层和传输层中间加了子层SSL/TLS。 
+
+阿里云上可以申请免费的证书
+https://yq.aliyun.com/articles/637307
+
+将证书放到自己机器上，在nginx上配置一下，即可
+
+```
+server {
+    listen              443 ssl;
+    server_name         www.example.com;
+    ssl_certificate     www.example.com.crt;
+    ssl_certificate_key www.example.com.key;
+    ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers         HIGH:!aNULL:!MD5;
+    ...
+}
+```
+
+
+
+
+
+
+

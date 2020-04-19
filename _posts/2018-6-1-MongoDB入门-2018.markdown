@@ -1,0 +1,296 @@
+---
+layout:     post
+title:      "MongoDB入门"
+date:       2018-6-1 20:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - MongoDB
+    - 数据库
+    
+---
+
+
+## MongoDB
+
+MongoDB是分布式文档数据库，可以存储非结构化的数据，可以横向扩容。
+
+
+## 基本使用
+
+
+#### 增：
+```
+db.col.insert({
+    title: 'mongo',
+})
+```
+
+
+
+```
+db.col.insertOne({"a": 3})
+
+```
+
+
+
+```
+db.col.insertMany(
+    [{"b": 3}, {'c': 4}]
+)
+```
+
+
+#### 删：
+```
+db.col.deleteOne({title: "123"})
+db.col.deleteMany({title: "123"})
+
+
+db.user.deleteOne({a: {$gt: 2}})
+db.user.deleteMany({a: {$gt: 2}})
+
+```
+
+#### 改：
+
+```
+db.up.update({'title': 'mongo'}, {$set: {'title': 'mongo 333 '}})
+db.up.update({}, {$set: {'title': 'mongo false true '}}, false, true)
+
+db.up.update({}, {$set: {'name': '123'}}, {multi: true})
+
+db.up.update({}, {$set: {'title': '123'}})
+
+
+db.up.update(
+    {},
+    {updateAll: "updateAll",}
+)
+
+db.up.updateOne({}, {$set: {'updateOne': 'updateOne'}})
+db.up.updateMany({}, {$set: {'updateMany': 'updateMany'}})
+
+```
+
+
+#### 查：
+```
+db.col.find()
+
+db.col.find().pretty()
+
+db.col.find({"by": "111", "title": "111"}).pretty()
+
+db.col.find(
+    {
+        $or: [
+            {"by": "111"},
+            {title: "111"}
+        ]
+    }).pretty()
+
+db.col.find(
+    {
+        "num": {
+            "$gt": 2
+        },
+        "$or": [
+            {"by": "222"},
+            {"title": "222"},
+        ]
+    }).pretty()
+
+
+db.col.find({num: {$gt: 2}})
+db.col.find({num: {$gte: 2}})
+db.col.find({num: {$lt: 2}})
+db.col.find({num: {$lte: 2}})
+db.col.find({num: {$ne: 2}})
+db.col.find({num: {$lt: 4, $gt: 1}})
+
+
+db.col.find().limit(1).skip(1)
+
+db.col.find().sort({num: 1})
+db.col.find().sort({num: -1})
+db.col.find({}, {"title": 1, _id: 0}).sort({"num": -1})
+
+db.col.find({}, {"title": 1}).sort({"num": -1})
+db.col.find({}, {"title": 1, "num": 1}).sort({"num": -1})
+
+
+db.col.findOne()
+
+db.col.findOne(
+    {},
+    {title: 1, num: 1}
+)
+
+
+```
+
+#### 聚合：
+
+```
+db.sales.drop()
+
+db.sales.insert([
+
+    {"_id": 1, "item": "abc", "price": 10, "quantity": 2, "date": ISODate("2014-03-01T08:00:00Z")},
+    {"_id": 2, "item": "jkl", "price": 20, "quantity": 1, "date": ISODate("2014-03-01T09:00:00Z")},
+    {"_id": 3, "item": "xyz", "price": 5, "quantity": 10, "date": ISODate("2014-03-15T09:00:00Z")},
+    {"_id": 4, "item": "xyz", "price": 5, "quantity": 20, "date": ISODate("2014-04-04T11:21:39.736Z")},
+    {"_id": 5, "item": "abc", "price": 10, "quantity": 10, "date": ISODate("2014-04-04T21:23:13.331Z")},
+
+])
+
+
+db.sales.find().pretty()
+db.sales.aggregate(
+    [
+        {
+            $group: {
+                _id: {month: {$month: "$date"}, day: {$dayOfMonth: "$date"}, year: {$year: "$date"}},
+                totalPrice: {$sum: {$multiply: ["$price", "$quantity"]}},
+                averageQuantity: {$avg: "$quantity"},
+                count: {$sum: 1}
+            }
+        }
+    ]
+)
+
+
+/*
+                _id: ["item", "quantity"],
+                prices: {$push: "$$ROOT"}
+
+*/
+db.sales.aggregate(
+    [
+        {
+            $group: {
+                _id: {
+                    item: "$item",
+                    quantity: "$quantity",
+                },
+                count: {$sum: 1},
+
+            }
+        }
+    ]
+).pretty()
+
+
+//一次操作，可以聚合其他多列
+db.sales.aggregate(
+    [
+        {
+            $group: {
+                _id: null,
+                totalPrice: {$sum: {$multiply: ["$price", "$quantity"]}},
+                averageQuantity: {$avg: "$quantity"},
+                count: {$sum: 1}
+            }
+        }
+    ]
+)
+
+//
+db.sales.aggregate([{$group: {_id: "$item"}}])
+
+//按一个字段进行分组，将另一个字段放到list中，
+db.sales.aggregate(
+    [
+        {
+            $group: {
+                _id: "$item",
+                prices: {$push: "$price"}
+            }
+        }
+    ]
+)
+
+//将整个对象放到list中
+db.sales.aggregate(
+    [
+        {
+            $group: {
+                _id: "$item",
+                prices: {$push: "$$ROOT"}
+            }
+        }
+    ]
+).pretty()
+
+
+
+```
+
+
+
+```
+// 根据title 进行聚合， 计算每种类别下的条数总和 ， 这里的 _id 不能变， 否则报错
+db.col.aggregate([{$group: {_id: "$title", value: {$sum: 1}}}])
+
+
+// $num ，对num属性进行累加
+db.col.aggregate([{$group: {_id: "$title", value: {$sum: "$num"}}}])
+
+db.col.aggregate([{$group: {_id: "$title", value: {$avg: "$num"}}}])
+
+db.col.aggregate([{$group: {_id: "$title", value: {$min: "$num"}}}])
+db.col.aggregate([{$group: {_id: "$title", value: {$max: "$num"}}}])
+
+
+// 下面两个都是把每组的对应属性，放到一个list里面，区别是顺序刚好相反，
+db.col.aggregate([{$group: {_id: "$title", value: {$push: "$num"}}}])
+db.col.aggregate([{$group: {_id: "$title", value: {$addToSet: "$num"}}}])
+
+db.col.aggregate([{$group: {_id: "$title", value: {$first: "$num"}}}])
+db.col.aggregate([{$group: {_id: "$title", value: {$last: "$num"}}}])
+
+
+// $project 修改输入文档的结构。可以用来重命名、增加或删除域，也可以用于创建计算结果以及嵌套文档。
+db.col.aggregate({
+        $project: {
+            title: 1,
+            num: 1,
+        }
+    });
+
+// 不显示id字段
+db.col.aggregate(
+    {
+        $project: {
+            _id: 0,
+            title: 1,
+            num: 1,
+        }
+    }
+);
+
+// 先筛选，后聚合
+db.col.aggregate([
+    {$match: {num: {$gt: 1, $lt: 100}}},
+    {$group: {_id: null, count: {$sum: 1}}}
+]);
+
+// sum111字段可以自定义
+db.col.aggregate([
+    {$match: {num: {$gt: 1, $lt: 100}}},
+    {$group: {_id: null, sum111: {$sum: "$num"}}}
+]);
+
+
+db.col.aggregate([{$skip: 1},
+    {$match: {num: {$gt: 2, $lt: 100}}},
+    {$group: {_id: null, count: {$sum: 1}}}
+]);
+
+
+```
+
+

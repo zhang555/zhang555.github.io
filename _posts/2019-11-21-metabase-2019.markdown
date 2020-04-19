@@ -1,0 +1,88 @@
+---
+layout:     post
+title:      "数据库可视化软件metabase"
+date:       2019-11-21 22:06:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - 后端开发
+---
+
+
+## 简介
+
+一次偶然的机会，知道了metabase，经过一段时间的使用，发现它把我的工作效率提高了很多倍
+
+老板，技术，产品，客服有时想看一些数据，如果用普通的办法来做，写后端接口，前端调接口，写页面，推程序，部署程序，是一个非常繁杂的流程。
+
+而使用metabase来做这个事，就非常简单，只需要写一个sql，点几个按钮，就可以展示想要的数据，极其方便。
+
+下面介绍metabase的用法
+
+
+## metabase 安装
+
+安装只需要运行一个命令即可
+
+```
+docker run -d -p 3000:3000 --name metabase metabase/metabase
+```
+
+进入metabase，填上数据库的 host ，port， user，password
+
+这里最好是给metabase单独开个读库上的只读账号，这样可以保证数据库的安全，保证metabase只能进行查询，不能增删改，保证metabase只能在读库上操作，不能影响写库
+
+metabase默认也会执行一些比较耗资源的操作，需要关掉
+
+#### metabase 备份
+
+```
+将容器备份成镜
+sudo docker commit  metabase  metabase-backup-2020-10-10
+
+将镜像打包成 tar文件
+sudo docker save -o ~/metabase-backup-2020-10-10.tar metabase-backup-2020-10-10
+
+将tar文件 解压成image
+docker load -i ~/metabase-backup-2020-10-10.tar
+```
+
+## metabase 功能
+
+
+#### collection 
+collection就是文件夹，可以放 question 和 dashboard
+
+
+#### question
+question 就是报表，输入sql，就可以生成一个question
+
+
+#### dashboard
+dashboard 仪表盘， 
+一个 dashboard 可以包含多个图表，方便查看
+
+
+## metabase 权限
+
+metabase 可以设置组，可以将权限赋给某个组，也可以赋给某个用户
+
+
+
+
+
+## metabase 问题
+
+metabase 用的是java写的一个数据库，不太稳定，有时会报错，可以换成mysql
+
+metabase默认会执行一些比较耗资源的操作，有的操作是一天执行一次，有的是一小时执行一次，需要关掉
+
+
+
+
+
+
+
+
+

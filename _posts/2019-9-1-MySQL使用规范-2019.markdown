@@ -1,0 +1,17 @@
+---
+layout:     post
+title:      "MySQL使用规范"
+date:       2019-9-1 20:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - 数据库
+    - MySQL
+---
+
+## MySQL使用规范
+
+
+- [https://github.com/alibaba/p3c/tree/master/p3c-gitbook/MySQL%E6%95%B0%E6%8D%AE%E5%BA%93](https://github.com/alibaba/p3c/tree/master/p3c-gitbook/MySQL%E6%95%B0%E6%8D%AE%E5%BA%93)
+

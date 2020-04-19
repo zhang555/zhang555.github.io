@@ -1,0 +1,95 @@
+---
+layout:     post
+title:      "《大型网站架构与java中间件》"
+date:       2019-1-10 20:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - 技术书籍
+    - 后端开发
+---
+
+
+ 
+
+## 第2章 大型网站及其架构演进过程 35
+ 
+
+
+阶段一
+数据库和应用程序放同一台机器上
+
+![](/img/bigweb/image.png)
+
+
+阶段二
+数据库和应用程序分开
+![](/img/bigweb/image1.png)
+
+ 
+阶段三
+将应用程序放到多个服务器上
+
+![](/img/bigweb/image2.png)
+
+这里就会有session的问题，常用的解决方法有两种，
+session sticky ：用户的请求打到同一个服务器上。
+session集中管理。
+
+
+阶段四
+数据库读写分离，
+加入搜索引擎，搜索引擎可以看作是一个读库，
+加入缓存
+
+![](/img/bigweb/image3.png)
+
+
+
+
+阶段五
+弥补关系型数据库不足，引入分布式存储系统
+![](/img/bigweb/image4.png)
+
+
+
+
+阶段六
+数据库垂直拆分
+数据库水平拆分
+
+![](/img/bigweb/image5.png)
+
+
+![](/img/bigweb/image6.png)
+
+
+
+
+阶段七 
+应用拆分，有两种方法：
+一：按功能进行拆分
+
+
+![](/img/bigweb/image7.png)
+
+
+
+
+二：服务化
+
+![](/img/bigweb/image8.png)
+
+
+
+阶段八
+加入消息中间件
+![](/img/bigweb/image9.png)
+
+
+
+ 
+
+  
+

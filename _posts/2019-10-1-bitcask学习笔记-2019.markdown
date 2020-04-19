@@ -1,0 +1,130 @@
+---
+layout:     post
+title:      "bitcask学习笔记"
+date:       2019-10-1 20:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - 数据库
+    - kv存储引擎
+    - paper reading
+---
+
+
+## bitcask paper reading
+
+
+在评估存储引擎时，我们寻求许多目标，包括：
+* 读写低延迟
+* 高吞吐，尤其在写入随机流的时候
+* 可以写超过RAM大小的数据
+* 不怕崩溃，崩溃后可以快速恢复，不丢数据
+* 易于备份和还原
+* 相对简单的代码，易于理解的数据格式
+* 在大容量下，在高负载下行为可预测
+* 允许在riak中轻松默认使用的许可证
+
+bitcask可以实现上述需求。
+
+#### bitcask 文件
+
+
+一个bitcask实例是一个目录，强制保证只有一个进程访问这个目录
+
+在目录中一次只有一个active的文件
+
+如果文件超过了大小，就关闭，创建一个新的active文件
+
+一个文件一旦关闭，不管是特意的，还是进程退出导致的，都保持为不可变的，不会再打开写数据
+
+![](/img/bitcask/bitcask1.png)
+
+ 
+active文件只使用append的写入方式，不需要磁盘seek
+
+键值对格式：
+![](/img/bitcask/bitcask_kv_format.png)
+![](/img/bitcask/bitcask_kv_format2.png)
+
+删除操作也是append新数据，会在下次merge时真正去除，
+
+文件append操作完成后，更新内存中的数据结构keydir
+
+#### bitcask 内存数据结构keydir
+
+
+keydir是一个map，map的key就是存的kv对的key，value是定长的数据结构，包括文件id，值大小，值位置，时间戳
+
+![](/img/bitcask/bitcask_keydir.png)
+
+
+当写操作发生时，keydir被原子的更新，更新成新的文件上的位置，文件上的老数据还在磁盘上，新的读操作会使用新的keydir
+
+#### bitcask merge
+
+
+merge进程会删除老数据
+
+读操作很简单，只需要一次磁盘seek
+
+从keydir中读取file_id value_size value_pos，然后从磁盘文件读取value即可。
+
+
+![](/img/bitcask/bitcask_seek.png)
+
+
+这个简单的模型随着时间，会用很多空间，merge进程解决这个问题
+
+它迭代所有 non-active 文件，生成一组文件，只包含最新的key
+
+当merge进程结束，生成 hint file ，它像data file，但是格式不同，格式：时间戳，key_size，values_size，value_pos，key
+
+
+![](/img/bitcask/bitcask_merge.png)
+
+
+当Erlang进程打开bitcask时，检测是否有其他进程，如果有，共享keydir，
+
+如果没有，扫描所有data file，如果有hint file，就扫hint file，这样可以加速
+
+#### 总结
+
+上面是bitcask的基本操作，本文没有公开所有细节，
+
+一些附加说明：
+* 读性能的优化依赖操作系统的文件系统缓存，读操作可以加上缓存
+* bitcask不是追求最快的速度，而是足够的速度，和高质量、简单的代码、设计、文件格式
+* 没有写keydir并发的方案
+* 没有压缩
+
+bitcask实现了开篇的八个需求
+
+
+
+
+## 参考资料
+- [https://github.com/xincao9/dkv](https://github.com/xincao9/dkv)
+- [https://github.com/xincao9/dkv/blob/master/bitcask-intro.pdf](https://github.com/xincao9/dkv/blob/master/bitcask-intro.pdf)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+

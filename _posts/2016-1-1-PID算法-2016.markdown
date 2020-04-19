@@ -1,0 +1,64 @@
+---
+layout:     post
+title:      "自动控制算法：PID"
+date:       2016-1-1 20:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - 硬件
+---
+
+## PID
+
+假设我们要将室内的温度控制在26度，室内的温度受外界影响，可能高可能低。我们有用于控制温度的器件，在温度高于期望值时降温，在温度低于期望值时升温，并且升温降温的幅度是可以复制的。
+
+这个问题就可以用自动控制算法PID来实现。
+
+## 基本概念
+
+P：proportion：比例
+I：integration：积分
+D：differentiation：微分
+
+![](/img/pid/pid.png)
+
+#### 控制周期
+假设我们每一秒检测一次当前温度，设置一次升温降温的幅度，那我们的控制周期就是一秒。
+
+在一个控制周期内，通过PID算法计算升温降温装置的幅度。
+
+#### PID计算流程
+
+使用当前温度和期望温度相减，得到误差，对差值进行PID计算得到幅度。
+
+PID计算：
+幅度 = P * 误差 + I * 误差的累加 + D * 误差的两个周期的差值
+
+
+代码：
+```
+Pre_Error_left = Error_left;
+Error_left = Target_count_left-left_count;
+Integration_Error_left += Error_left;
+
+P_pwm = speed_P * Error_left                    ; 
+I_pwm = speed_I * Integration_Error_left        ;
+D_pwm = speed_D * (Error_left-Pre_Error_left)   ;      
+```
+
+Error_left 就是当前控制周期，测量值和期望值的差值
+Pre_Error_left 是上个周期的差值
+Integration_Error_left 是差值的积分
+speed_P speed_I speed_D 是参数
+P_pwm I_pwm D_pwm 三者加起来就是输出给控制器件的幅度
+
+#### 调参
+PID的基本概念比较容易理解，主要就是三个参数的调试比较麻烦，常见的可以使用人工调试，当然也有更高端的自动调试。
+
+
+
+## 资料
+wiki：
+https://zh.wikipedia.org/wiki/PID%E6%8E%A7%E5%88%B6%E5%99%A8
+

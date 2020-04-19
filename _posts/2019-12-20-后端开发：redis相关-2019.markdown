@@ -1,0 +1,52 @@
+---
+layout:     post
+title:      "后端开发：redis相关"
+date:       2019-12-20 20:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - 后端开发
+    - redis
+---
+
+## 缓存穿透
+
+用户请求某个id的数据，但是这个id在数据库中没有，redis中也没有，那么会导致一直对数据库进行查询，称为缓存穿透
+
+解决办法：
+ * 数据库中没有查到，也缓存起来
+ * 在redis前面放一层bloomfilter
+ 
+ 
+## 缓存击穿
+
+在redis中缓存的某个key，刚好失效了，从数据库中查出来需要一段时间，在这段时间内，用户发起大量请求，称为缓存击穿
+
+解决办法：
+* 用定时器去将这个数据放到redis中
+
+
+## 缓存雪崩
+某一时刻，redis挂掉，大量请求打到数据库上
+
+解决办法：
+* 使用高可用的缓存数据库
+* 应用级别也缓存一层
+* 服务限流 服务降级
+
+
+## Redis Cross Slot Error 
+
+在redis集群模式下，如果两个key在不同的slot上，进行事务操作时就会报错。
+
+解决办法：
+把两个key强制放到同一个slot上，使用大括号，让大括号里面的内容相同即可，比如{keyPrefix}Key1，{keyPrefix}Key2
+
+
+
+
+
+
+
+

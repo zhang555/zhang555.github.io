@@ -1,0 +1,276 @@
+---
+layout:     post
+title:      "gorm使用"
+date:       2018-4-20 20:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - 后端开发
+    - golang
+    - gorm
+---
+
+gorm是golang编写的orm工具，用来进行crud非常的方便。下面列一下它的基本用法
+
+
+初始化：
+```go
+
+package demo2
+
+import (
+	"encoding/json"
+	"fmt"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"log"
+)
+
+var (
+	DB *gorm.DB
+)
+
+type DbParam struct {
+	User          string
+	Password      string
+	Host          string
+	Port          string
+	Schema        string
+	TableNameLike string
+}
+
+func init() {
+	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile | log.LstdFlags)
+	InitDatabase()
+}
+
+func InitDatabase() {
+
+	DbParam1 := DbParam{}
+
+	DbParam1.User = "root"
+	DbParam1.Password = "root"
+	DbParam1.Host = "localhost"
+	DbParam1.Port = "3306"
+	DbParam1.Schema = "test"
+
+	path := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
+		DbParam1.User, DbParam1.Password, DbParam1.Host, DbParam1.Port, DbParam1.Schema,
+	)
+
+	var err error
+	DB, err = gorm.Open("mysql", path)
+	if err != nil {
+		panic("failed to connect database" + err.Error())
+	}
+
+	DB.LogMode(true)
+	DB.SingularTable(true)
+
+	var l L
+	DB.SetLogger(l)
+}
+
+//
+type L struct {
+}
+
+func (L) Print(v ...interface{}) {
+	bs, _ := json.Marshal(v)
+	log.Println(string(bs))
+}
+```
+
+
+  
+```go
+type User struct {
+	ID         int
+	Username   string
+	Password   string
+	RoleId     int
+	CreateTime time.Time
+	UpdateTime time.Time
+}
+```
+
+
+## c
+创建：
+```go
+func TestCreate001(t *testing.T) {
+	var user User
+	user.Username = `asdasdasdasd`
+	user.CreateTime = time.Now()
+	user.UpdateTime = time.Now()
+
+	err := DB.Create(&user).Error
+	if err != nil {
+		log.Println(err)
+	}
+}
+```
+
+
+
+## r
+
+按主键查询：
+```go
+ 
+func TestRead001(t *testing.T) {
+	//  SELECT * FROM `user`  WHERE `user`.`id` = '6' ORDER BY `user`.`id` ASC LIMIT 1
+	var user User
+	user.ID = 6
+	DB.First(&user)
+	log.Println(user)
+}
+```
+
+按条件查询：
+```go
+func TestRead002(t *testing.T) {
+	//SELECT * FROM `user`  WHERE (password = 'abc') ORDER BY `user`.`id` ASC LIMIT 1
+	var user User
+	DB.Where("password = ?", "abc").First(&user)
+	log.Println(user)
+}
+```
+
+批量查询：
+```go
+func TestRawScan001(t *testing.T) {
+	sql := `
+select *
+from user
+limit 10
+`
+	var beans []User
+	DB.Raw(sql).Scan(&beans)
+}
+```
+
+条件查询：
+```go
+func TestRawScan002(t *testing.T) {
+	sql := `
+select *
+from user
+where create_time >= ?
+`
+	var beans User
+	DB.Raw(sql, time.Now().Format("2006-01-02")).Scan(&beans)
+}
+```
+
+查询数量：
+```go
+func TestRawSql003(t *testing.T) {
+	var count int
+	sql := `
+select ifnull(count(*),0) 
+from user
+`
+	err := DB.Raw(sql).Row().Scan(&count)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(count)
+
+}
+```
+
+ 
+## u
+
+如果不设置id就会整张表更新：
+```go
+func TestUpdates001(t *testing.T) {
+	//整张表update
+	// UPDATE `user` SET `username` = 'aa'
+	var user User
+	user.Username = "aa"
+	DB.Model(&user).Updates(&user)
+}
+```
+
+按id更新指定字段：
+```go
+func TestUpdates002(t *testing.T) {
+
+	updateMap := map[string]interface{}{
+		"username":    "asd",
+		"update_time": time.Now(),
+	}
+
+	// UPDATE `user` SET `update_time` = '2019-11-24 17:59:23', `username` = 'asd'  WHERE `user`.`id` = 115  
+
+	var user User
+	user.ID = 115
+
+	err := DB.Model(&user).Updates(updateMap).Error
+	log.Println(err)
+
+}
+```
+
+按id和条件更新指定字段：
+```go
+func TestUpdates003(t *testing.T) {
+	savemap := map[string]interface{}{
+		"Name": "asd",
+	}
+
+	//UPDATE `dog` SET `name` = 'asd'  WHERE `dog`.`id` = '115' AND (( name = 'a' ))
+	var bean model.Dog
+	bean.ID = 115
+	bean.Name = "a"
+
+	err := DB.Model(&bean).Where(" name = ? ", "a").Updates(savemap).Error
+	log.Println(err)
+}
+```
+
+
+ 
+## d
+
+按id删除：
+```go
+func TestDelete001(t *testing.T) {
+	// DELETE FROM `user`  WHERE `user`.`id` = 123
+	var user User
+	user.ID = 123
+	DB.Delete(&user)
+
+}
+```
+
+如果不指定id就会删除整张表：
+```go
+func TestDelete002(t *testing.T) {
+	//DELETE FROM `user`
+	var user User
+	user.ID = 0
+	DB.Delete(&user)
+}
+```
+
+按条件删除：
+```go
+func TestDelete003(t *testing.T) {
+	// DELETE FROM `user`  WHERE (username = 'aaaaaaaa')
+	DB.Where("username = ?", "aaaaaaaa").Delete(User{})
+
+}
+```
+
+
+
+
+ 
+
+
+
+
