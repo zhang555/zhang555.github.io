@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "《数据库系统概念》 十四章 事务"
-date:       2017-10-25 20:00:00
+date:       2017-10-24 20:00:00
 author:     "zhang"
 header-img: "img/post-bg-2019.jpg"
 catalog: true
