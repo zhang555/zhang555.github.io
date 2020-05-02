@@ -71,7 +71,7 @@ tags:
 
 
 
-## Partitioning Secondary Indexes by Document
+#### Partitioning Secondary Indexes by Document
 
 
 ​在这种索引方法中，每个分区是完全独立的。
@@ -80,7 +80,7 @@ tags:
 
 文档分区索引也被称为本地索引（local index）
 
-## Partitioning Secondary Indexes by Term
+#### Partitioning Secondary Indexes by Term
 
 根据关键词的二级索引分区。又称为全局索引 global index
 
