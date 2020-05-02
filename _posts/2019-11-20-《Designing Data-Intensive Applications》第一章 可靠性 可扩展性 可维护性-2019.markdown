@@ -11,3 +11,15 @@ tags:
     - 后端开发
 ---
  
+
+## 1 Reliable, Scalable, and Maintainable Applications
+
+数据密集型应用 特征：
+* database
+* cache
+* search index
+* streaming process
+* batch process
+
+
+
