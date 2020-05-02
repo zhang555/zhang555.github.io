@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "数据库可视化软件metabase"
-date:       2019-11-21 22:06:00
+date:       2019-11-1 22:06:00
 author:     "zhang"
 header-img: "img/post-bg-2019.jpg"
 catalog: true
