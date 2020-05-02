@@ -6,7 +6,7 @@ author:     "zhang"
 header-img: "img/post-bg-2019.jpg"
 catalog: true
 tags:
-    - 硬件
+    - 智能硬件
 ---
 
 ## 参加飞思卡尔智能车大赛

@@ -6,7 +6,7 @@ author:     "zhang"
 header-img: "img/post-bg-2019.jpg"
 catalog: true
 tags:
-    - 硬件
+    - 智能硬件
     - 51
     - stm32
 ---
