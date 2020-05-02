@@ -66,23 +66,32 @@ tags:
 
 #### What Makes a System Linearizable?
 
+满足线性一致性 例1：
 ![](/img/ddia/fig9-2.png)
 
 
 在写之前读，必定是0
+
 在写之后读，必定是1
+
 在中间，都有可能
+
 这个不能充足的描述线性一致性
 
+
+满足线性一致性 例2：
 
 ![](/img/ddia/fig9-3.png)
 
 
 如果一个client读到1，后面的请求必须都是读到1
 
-The requirement of linearizability is that the lines joining up the operation markers always move forward in time (from left to right), never backward.
-线性一致性 需要 多个client 在时间线上的合并必须是向前的，不能倒退
 
+​线性一致性的要求是，操作标记的连线总是按时间（从左到右）向前移动，而不是向后移动。这个要求确保了我们之前讨论的新鲜性保证：一旦新的值被写入或读取，所有后续的读都会看到写入的值，直到它被再次覆盖
+
+
+
+满足线性一致性 例3：
 
 ![](/img/ddia/fig9-4.png)
 
@@ -164,7 +173,7 @@ CAP定理的正式定义仅限于很狭隘的范围【30】，它只考虑了一
 
 
 
-#### The causal order is not a total order
+* The causal order is not a total order
 
 
 ​ 在线性一致的系统中，操作是全序的
@@ -176,7 +185,7 @@ CAP定理的正式定义仅限于很狭隘的范围【30】，它只考虑了一
 
 
 
-#### Linearizability is stronger than causal consistency
+* Linearizability is stronger than causal consistency
 
 ​ 那么因果顺序和线性一致性之间的关系是什么？答案是线性一致性隐含着（implies）因果关系：任何线性一致的系统都能正确保持因果性【7】
 
@@ -190,7 +199,7 @@ CAP定理的正式定义仅限于很狭隘的范围【30】，它只考虑了一
 ​ 这方面的研究相当新鲜，其中很多尚未应用到生产系统，仍然有不少挑战需要克服【52,53】。但对于未来的系统而言，这是一个有前景的方向。
 
 
-#### Capturing causal dependencies
+* Capturing causal dependencies
 
 
 ​ 为了维持因果性，需要知道哪个操作发生在哪个其他操作之前（happened before）
