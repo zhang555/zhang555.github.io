@@ -14,22 +14,40 @@ tags:
 
 
 
+## 12. The Future of Data Systems
 
-12. The Future of Data Systems
-Data IntegrationCombining Specialized Tools by Deriving Data
-Batch and Stream Processing
-Unbundling DatabasesComposing Data Storage Technologies
-Designing Applications Around Dataflow
-Observing Derived State
-Aiming for CorrectnessThe End-to-End Argument for Databases
-Enforcing Constraints
-Timeliness and Integrity
-Trust, but Verify
-Doing the Right ThingPredictive Analytics
-Privacy and Tracking
-Summary
-Glossary
-Index
+## Data Integration
+
+​例如，为了处理任意关键词的搜索查询，将OLTP数据库与全文搜索索引集成在一起是很常见的的需求
+
+​数据集成的目标是，确保数据最终能在所有正确的地方表现出正确的形式
+
+
+
+## Unbundling Databases
+
+ 
+
+## Aiming for Correctness
+ 
+​我们希望构建可靠且正确的应用（即使面对各种故障，程序的语义也能被很好地定义与理解）
+
+
+
+## Doing the Right Thing
+ 
+​每个系统都服务于一个目的；我们采取的每个举措都会同时产生期望的后果与意外的后果。这个目的可能只是简单地赚钱，但其对世界的影响，可能会远远超出最初的目的。我们，建立这些系统的工程师，有责任去仔细考虑这些后果，并有意识地决定，我们希望生活在怎样的世界中
+
+我们将数据当成一种抽象的东西来讨论，但请记住，许多数据集都是关于人的：他们的行为，他们的兴趣，他们的身份。对待这些数据，我们必须怀着人性与尊重。用户也是人类，人类的尊严是至关重要的
+
+软件开发越来越多地涉及重要的道德抉择。有一些指导原则可以帮助软件工程师解决这些问题，例如ACM的软件工程道德规范与专业实践【77】，但实践中很少会讨论这些，更不用说应用与强制执行了。因此，工程师和产品经理有时会对隐私与产品潜在的负面后果抱有非常傲慢的态度【78,79,80】
+
+技术本身并无好坏之分 —— 关键在于它被如何使用，以及它如何影响人们。这对枪械这样的武器，这是成立的，而搜索引擎这样的软件系统与之类似。我认为，软件工程师仅仅专注于技术而忽视其后果是不够的：道德责任也是我们的责任。对道德推理很困难，但它太重要了，我们无法忽视
+
+
+
+## Summary
+
 
 
 
