@@ -238,9 +238,9 @@ CAP定理的正式定义仅限于很狭隘的范围【30】，它只考虑了一
 
 #### Atomic Commit and Two-Phase Commit (2PC)
 
-* From single-node to distributed atomic commit
+From single-node to distributed atomic commit
 
-* Introduction to two-phase commit
+Introduction to two-phase commit
 
 
 ​两阶段提交（two-phase commit）是一种用于实现跨多个节点的原子事务提交的算法，即确保所有节点提交或所有节点中止。它是分布式数据库中的经典算法【13,35,75】。 
@@ -250,7 +250,7 @@ CAP定理的正式定义仅限于很狭隘的范围【30】，它只考虑了一
 ​2PC使用一个通常不会出现在单节点事务中的新组件：协调者（coordinator）（也称为事务管理器（transaction manager））。协调者通常在请求事务的相同应用进程中以库的形式实现（例如，嵌入在Java EE容器中），但也可以是单独的进程或服务。这种协调者的例子包括Narayana，JOTM，BTM或MSDTC
 
 
-* A system of promises
+A system of promises
 
 
 两阶段提交流程：
@@ -269,7 +269,7 @@ CAP定理的正式定义仅限于很狭隘的范围【30】，它只考虑了一
 
 
 
-* Coordinator failure
+Coordinator failure
 
 
 如果任何一个准备请求失败或者超时，协调者就会中止事务。
@@ -279,7 +279,7 @@ CAP定理的正式定义仅限于很狭隘的范围【30】，它只考虑了一
 但是如果协调者崩溃，会发生什么情况就不太清楚了
 
 
-* Three-phase commit
+Three-phase commit
  
 
 
@@ -292,7 +292,8 @@ CAP定理的正式定义仅限于很狭隘的范围【30】，它只考虑了一
 * 数据库内部的分布式事务
 * 异构分布式事务
 
-* Exactly-once message processing
+
+Exactly-once message processing
 
 异构的分布式事务处理能够以强大的方式集成不同的系统。例如：消息队列中的一条消息可以被确认为已处理，当且仅当用于处理消息的数据库事务成功提交。这是通过在同一个事务中原子提交消息确认和数据库写入两个操作来实现的。藉由分布式事务的支持，即使消息代理和数据库是在不同机器上运行的两种不相关的技术，这种操作也是可能的
 
@@ -300,21 +301,21 @@ CAP定理的正式定义仅限于很狭隘的范围【30】，它只考虑了一
 
 ​然而，只有当所有受事务影响的系统都使用同样的原子提交协议（atomic commit protocl）时，这样的分布式事务才是可能的。
 
-* XA transactions
+XA transactions
 
 ​X/Open XA（扩展架构（eXtended Architecture）的缩写）是跨异构技术实现两阶段提交的标准【76,77】。它于1991年推出并得到了广泛的实现：许多传统关系数据库（包括PostgreSQL，MySQL，DB2，SQL Server和Oracle）和消息代理（包括ActiveMQ，HornetQ，MSMQ和IBM MQ） 都支持XA
 
-* Holding locks while in doubt
+Holding locks while in doubt
 
 ​在事务提交或中止之前，数据库不能释放这些锁（如图9-9中的阴影区域所示）。因此，在使用两阶段提交时，事务必须在整个存疑期间持有这些锁。如果协调者已经崩溃，需要20分钟才能重启，那么这些锁将会被持有20分钟。如果协调者的日志由于某种原因彻底丢失，这些锁将被永久持有 —— 或至少在管理员手动解决该情况之前
 
 
-* Recovering from coordinator failure
+Recovering from coordinator failure
 
 ​理论上，如果协调者崩溃并重新启动，它应该干净地从日志中恢复其状态，并解决任何存疑事务。然而在实践中，孤立（orphaned）的存疑事务确实会出现【89,90】，即无论出于何种理由，协调者无法确定事务的结果（例如事务日志已经由于软件错误丢失或损坏）。这些事务无法自动解决，所以它们永远待在数据库中，持有锁并阻塞其他事务
 
 
-* Limitations of distributed transactions
+Limitations of distributed transactions
 
 ​ XA事务解决了保持多个参与者（数据系统）相互一致的现实的重要问题，但正如我们所看到的那样，它也引入了严重的运维问题
 
