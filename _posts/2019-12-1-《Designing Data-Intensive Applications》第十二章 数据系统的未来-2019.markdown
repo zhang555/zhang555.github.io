@@ -12,3 +12,26 @@ tags:
 ---
  
 
+
+
+
+12. The Future of Data Systems
+Data IntegrationCombining Specialized Tools by Deriving Data
+Batch and Stream Processing
+Unbundling DatabasesComposing Data Storage Technologies
+Designing Applications Around Dataflow
+Observing Derived State
+Aiming for CorrectnessThe End-to-End Argument for Databases
+Enforcing Constraints
+Timeliness and Integrity
+Trust, but Verify
+Doing the Right ThingPredictive Analytics
+Privacy and Tracking
+Summary
+Glossary
+Index
+
+
+
+
+
