@@ -1,0 +1,58 @@
+---
+layout:     post
+title:      "go的一个死锁问题"
+date:       2018-10-10 22:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - 后端开发
+    - golang
+---
+
+
+## go的一个死锁问题
+
+```
+func TestGoRoutineStuck1(t *testing.T) {
+    var i byte
+    go func() {
+        for i = 0; i <= 255; i++ {
+        }
+    }()
+    fmt.Println("Dropping mic")
+    
+    // Yield execution to force executing other goroutines ， 让出执行权
+    runtime.Gosched()
+    
+    //gc 里面会 stw ，
+    runtime.GC()
+    
+    fmt.Println("Done")
+}
+```
+这个程序在go1.10版本会死锁
+
+
+当一个goroutine发生以下情况时，会出让执行权：
+* io操作
+* channel阻塞
+* system call
+* 运行时间较长且有函数调用
+    
+上面的goroutine四种情况都没有，所以无法出让执行权
+
+runtime.Gosched()会让出执行权，强制执行其他goroutine，而goroutine中只有一个死循环，无法让出执行权
+
+runtime.GC() 需要stw，会让所有正在运行的 goroutine 停下来。 main goroutine 阻塞在gc stw 里面，等待所有goroutine停止执行。但是另一个goroutine是死循环，导致程序卡死。
+
+
+
+
+参考资料：
+
+https://xlzd.me/2018/09/18/golang-stop-the-world/
+
+
+
+

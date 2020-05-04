@@ -1,0 +1,44 @@
+---
+layout:     post
+title:      "go1.14 goroutine异步抢占 防止死锁问题"
+date:       2020-5-1 22:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - 后端开发
+    - golang
+---
+
+
+
+## 这个程序在go1.14不再卡死
+
+```
+func TestGoRoutineStuck1(t *testing.T) {
+    var i byte
+    go func() {
+        for i = 0; i <= 255; i++ {
+        }
+    }()
+    fmt.Println("Dropping mic")
+    
+    runtime.Gosched()
+    
+    runtime.GC()
+    
+    fmt.Println("Done")
+}
+```
+
+Goroutines are now asynchronously preemptible. As a result, loops without function calls no longer potentially deadlock the scheduler or significantly delay garbage collection.
+
+
+
+参考资料：
+
+https://golang.org/doc/go1.14
+
+
+
+
