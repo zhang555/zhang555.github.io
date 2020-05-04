@@ -11,3 +11,34 @@ tags:
     - 后端开发
 ---
  
+
+## 3. Storage and Retrieval
+
+一个数据库在最基础的层次上需要完成两件事情：当你把数据交给数据库时，它应当把数据存储起来；而后当你向数据库要数据时，它应当把数据返回给你
+
+
+
+##  Data Structures That Power Your Database
+
+ 
+
+#### Hash Indexes
+
+
+#### SSTables and LSM-Trees
+#### B-Trees
+#### Comparing B-Trees and LSM-Trees
+#### Other Indexing Structures
+
+
+## Transaction Processing or Analytics?
+
+#### Data Warehousing
+
+#### Column Compression
+
+
+
+## Summary
+
+
