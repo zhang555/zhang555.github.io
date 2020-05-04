@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "给TiDB提交代码"
+title:      "给TiDB添加功能"
 date:       2020-2-8 20:00:00
 author:     "zhang"
 header-img: "img/post-bg-2019.jpg"
@@ -60,6 +60,13 @@ b.visitInfo = appendVisitInfo(b.visitInfo, mysql.SelectPriv, show.Table.Schema.L
 具体代码见 https://github.com/pingcap/tidb/pull/14697/files
 
 至此，这个简单的需求就基本实现了。
+
+
+实现了功能之后还送了一个杯子，相当赞
+
+![](/img/tidb/tidb-cup.jpeg)
+
+
 
 
 ## 相关资料
