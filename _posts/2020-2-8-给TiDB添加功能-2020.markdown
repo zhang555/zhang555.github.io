@@ -7,6 +7,8 @@ header-img: "img/post-bg-2019.jpg"
 catalog: true
 tags:
     - TiDB
+    - 分布式数据库
+    - 数据库
 ---
 
 ## 需求
