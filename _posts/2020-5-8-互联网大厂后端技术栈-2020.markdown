@@ -11,12 +11,17 @@ tags:
 ---
 
  
+## 思维导图
+
+![](/img/architecture/architecture1.png)
+
+
+
 ## 参考资料
 
 https://zhuanlan.zhihu.com/p/103798636
 
 
 
-![](/img/architecture/architecture1.png)
 
 
