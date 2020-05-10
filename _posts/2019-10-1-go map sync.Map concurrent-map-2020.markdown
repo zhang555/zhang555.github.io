@@ -48,12 +48,12 @@ type bmap struct {
 }
 ```
 
-get流程：通过后面B位，找到桶，通过前面8位，与bmap中的tophash进行匹配，如果不同就跳过，如果相同，就匹配整个key。
+get流程：通过后面B位，找到桶，通过前面8位，与bmap中的tophash进行匹配，如果不同就跳过，如果相同，就尝试匹配整个key，如果相同就返回。
 
 put流程：用同样的方法找到桶，在bmap中，找到空位，放置key value
 
 扩容：
-* 相同容量"扩容"：当其实元素没那么多，但是 overflow bucket 数特别多时，进行这种扩容
+* 相同容量"扩容"：当元素没那么多，但是 overflow bucket 数特别多时，进行这种扩容
 * 二倍容量扩容：当元素太多，而 bucket 数量太少，进行这种扩容
 
 
@@ -66,6 +66,13 @@ http://blog.newbmiao.com/2020/02/04/dig101-golang-map.html
 https://github.com/qcrao/Go-Questions/blob/master/map/map%20%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88.md
 
 https://github.com/qcrao/Go-Questions/blob/master/map/map%20%E7%9A%84%E6%89%A9%E5%AE%B9%E8%BF%87%E7%A8%8B%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84.md
+
+
+- [https://www.linkinstar.wiki/2019/06/03/golang/source-code/graphic-golang-map/](https://www.linkinstar.wiki/2019/06/03/golang/source-code/graphic-golang-map/)
+- [http://blog.newbmiao.com/2020/02/04/dig101-golang-map.html](http://blog.newbmiao.com/2020/02/04/dig101-golang-map.html)
+- [https://github.com/qcrao/Go-Questions/blob/master/map/map%20%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88.md](https://github.com/qcrao/Go-Questions/blob/master/map/map%20%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88.md)
+- [https://github.com/qcrao/Go-Questions/blob/master/map/map%20%E7%9A%84%E6%89%A9%E5%AE%B9%E8%BF%87%E7%A8%8B%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84.md](https://github.com/qcrao/Go-Questions/blob/master/map/map%20%E7%9A%84%E6%89%A9%E5%AE%B9%E8%BF%87%E7%A8%8B%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84.md)
+
 
 
 ## go sync.Map
@@ -85,7 +92,7 @@ type readOnly struct {
 }
 ```
 
-sync.Map的思路就是维护两个map，一个用于读写（dirty字段），一个用于读（read字段）。如果read中amended为true，就代表read和dirty数据不同。
+sync.Map的思路是维护两个map，一个用于读写（dirty字段），一个用于读（read字段）。如果read中amended为true，就代表read和dirty数据不同。
 
 读流程：从read中读，如果有，就返回，否则从dirty读，如果从dirty读的次数到了一定的上限，就把数据写入read。
 
