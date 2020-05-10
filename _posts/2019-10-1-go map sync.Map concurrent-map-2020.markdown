@@ -1,7 +1,7 @@
 ---
 layout:     post
-title:      "go1.14 goroutine异步抢占 防止死锁问题"
-date:       2020-5-1 22:00:00
+title:      "go map sync.Map concurrent-map"
+date:       2019-10-1 22:00:00
 author:     "zhang"
 header-img: "img/post-bg-2019.jpg"
 catalog: true
@@ -9,7 +9,6 @@ tags:
     - 后端开发
     - golang
 ---
-
 
 ## go map 
 
