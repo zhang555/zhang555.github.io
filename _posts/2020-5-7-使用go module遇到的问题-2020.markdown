@@ -1,0 +1,48 @@
+---
+layout:     post
+title:      "使用go module遇到的问题"
+date:       2020-5-7 22:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - 后端开发
+    - golang
+---
+
+
+参考资料：
+
+Etcd使用go module的灾难
+
+https://colobu.com/2020/04/09/accidents-of-etcd-and-go-module/
+
+
+
+
+
+参考资料：
+
+https://blog.csdn.net/oscarun/article/details/105321846
+
+
+
+## module declares its path as
+
+在go.mod中加入replace
+```
+replace github.com/coreos/bbolt v1.3.4 => go.etcd.io/bbolt v1.3.4
+```
+
+
+## used for two different module paths
+
+在go.mod中加入replace
+
+
+```
+replace github.com/coreos/bbolt v1.3.4 => go.etcd.io/bbolt v1.3.4
+replace go.etcd.io/bbolt v1.3.4 => github.com/coreos/bbolt v1.3.4
+```
+
+
