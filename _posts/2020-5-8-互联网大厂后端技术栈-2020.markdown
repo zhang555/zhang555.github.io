@@ -1,0 +1,22 @@
+---
+layout:     post
+title:      "互联网大厂后端技术栈"
+date:       2020-5-8 22:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - 架构
+    - 后端开发
+---
+
+ 
+## 参考资料
+
+https://zhuanlan.zhihu.com/p/103798636
+
+
+
+![](/img/architecture/architecture1.png)
+
+
