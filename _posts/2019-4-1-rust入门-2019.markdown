@@ -11,6 +11,19 @@ tags:
 ---
 
 
+## rust的优势
+
+
+* 静态语言，最大限度的保证运行性能。
+* 无 GC，完全手动控制内存。防止GC带来的影响。
+* Memory safe，尽量避免 dangling pointer，memory leak 等问题。
+* Thread safe，不会遇到 data race 等问题。
+* 包管理，可以非常方便的使用第三方库。
+* 高效的 C 绑定。
+
+
+
+
 ## 内存管理
 
 c c++ 使用手动管理内存 
@@ -300,7 +313,11 @@ rust中两种宏：
 
  
 
+## 参考资料
 
+
+- [https://doc.rust-lang.org/book/](https://doc.rust-lang.org/book/)
+- [https://pingcap.com/blog-cn/rust-key-value-store/](https://pingcap.com/blog-cn/rust-key-value-store/)
 
 
 

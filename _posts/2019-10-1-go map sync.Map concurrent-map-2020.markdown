@@ -59,13 +59,6 @@ put流程：用同样的方法找到桶，在bmap中，找到空位，放置key 
 
 #### 参考资料
 
-https://www.linkinstar.wiki/2019/06/03/golang/source-code/graphic-golang-map/
-
-http://blog.newbmiao.com/2020/02/04/dig101-golang-map.html
-
-https://github.com/qcrao/Go-Questions/blob/master/map/map%20%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88.md
-
-https://github.com/qcrao/Go-Questions/blob/master/map/map%20%E7%9A%84%E6%89%A9%E5%AE%B9%E8%BF%87%E7%A8%8B%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84.md
 
 
 - [https://www.linkinstar.wiki/2019/06/03/golang/source-code/graphic-golang-map/](https://www.linkinstar.wiki/2019/06/03/golang/source-code/graphic-golang-map/)
