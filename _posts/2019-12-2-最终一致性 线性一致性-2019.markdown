@@ -7,6 +7,8 @@ header-img: "img/post-bg-2019.jpg"
 catalog: true
 tags:
     - 后端开发
+    - 最终一致性
+    - 线性一致性
 ---
 
 ## 最终一致性  
@@ -16,3 +18,11 @@ tags:
 ## 线性一致性
 
 一个包括多个节点的集群，看起来好像只有一个副本。
+
+
+## 参考资料
+
+
+《Designing Data-Intensive Applications》第五章 复制
+
+《Designing Data-Intensive Applications》第九章 一致性与共识
