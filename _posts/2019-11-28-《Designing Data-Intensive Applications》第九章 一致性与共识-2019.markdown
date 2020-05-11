@@ -247,6 +247,8 @@ Introduction to two-phase commit
 
 2PC在某些数据库内部使用，也以XA事务的形式对应用可用【76,77】
 
+![](/img/ddia/fig9-9.png)
+
 ​2PC使用一个通常不会出现在单节点事务中的新组件：协调者（coordinator）（也称为事务管理器（transaction manager））。协调者通常在请求事务的相同应用进程中以库的形式实现（例如，嵌入在Java EE容器中），但也可以是单独的进程或服务。这种协调者的例子包括Narayana，JOTM，BTM或MSDTC
 
 
@@ -277,6 +279,8 @@ Coordinator failure
 如果任何提交或中止请求失败，协调者将无条件重试。
 
 但是如果协调者崩溃，会发生什么情况就不太清楚了
+
+![](/img/ddia/fig9-10.png)
 
 
 Three-phase commit

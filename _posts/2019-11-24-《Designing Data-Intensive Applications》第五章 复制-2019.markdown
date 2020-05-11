@@ -95,6 +95,8 @@ leader 可读可写， follower只能读
 
 ## Multi-Leader Replication
 
+![](/img/ddia/fig5-6.png)
+
 
 #### Use Cases for Multi-Leader Replication
 为什么需要多leader复制：有多个数据中心的情况下，想要更高的性能，想要容忍数据中心出问题，想要容忍数据中间之间的网络出问题
@@ -113,6 +115,9 @@ leader 可读可写， follower只能读
 * 星形拓扑
 * all to all 拓扑
 
+![](/img/ddia/fig5-8.png)
+
+
 
 ## Leaderless Replication
 
@@ -120,6 +125,8 @@ leader 可读可写， follower只能读
 
 亚马逊的Dynamo使用这种架构，
 Riak，Cassandra和Voldemort 也使用这种架构
+
+![](/img/ddia/fig5-10.png)
 
 
 #### Writing to the Database When a Node Is Down

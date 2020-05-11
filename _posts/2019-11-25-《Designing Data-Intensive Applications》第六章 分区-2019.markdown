@@ -80,9 +80,14 @@ tags:
 
 文档分区索引也被称为本地索引（local index）
 
+![](/img/ddia/fig6-4.png)
+
+
 #### Partitioning Secondary Indexes by Term
 
 根据关键词的二级索引分区。又称为全局索引 global index
+
+![](/img/ddia/fig6-5.png)
 
 
 不需要分散/收集所有分区，客户端只需要向包含关键词的分区发出请求。
@@ -162,6 +167,9 @@ n是节点数， 当n发生变化时，有很多的key需要移动
 * 允许用户访问所有节点，来确定想要访问的数据分布在哪里
 * 客户端的请求发给路由层
 * 要求客户端维护数据的分布的信息，客户端直接连接到适当的节点。
+
+
+![](/img/ddia/fig6-7.png)
 
 
 ## Parallel Query Execution
