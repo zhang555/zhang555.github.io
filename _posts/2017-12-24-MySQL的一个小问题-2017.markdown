@@ -1,13 +1,13 @@
 ---
 layout:     post
-title:      "mysql的一个小问题"
+title:      "MySQL的一个小问题"
 date:       2017-12-24 20:00:00
 author:     "zhang"
 header-img: "img/post-bg-2019.jpg"
 catalog: true
 tags:
     - 后端开发
-    - mysql
+    - MySQL
     - 数据库
 ---
 

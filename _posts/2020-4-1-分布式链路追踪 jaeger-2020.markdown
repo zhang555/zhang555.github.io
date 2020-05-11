@@ -6,9 +6,10 @@ author:     "zhang"
 header-img: "img/post-bg-2019.jpg"
 catalog: true
 tags:
-    - 微服务
-    - 后端开发
     - jaeger
+    - 分布式链路追踪
+    - 后端开发
+    - 微服务
 ---
 
 ## jaeger 
