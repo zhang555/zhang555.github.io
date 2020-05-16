@@ -8,6 +8,7 @@ catalog: true
 tags:
     - raft
     - paper reading
+    - 线性一致性
 ---
 
 ## raft

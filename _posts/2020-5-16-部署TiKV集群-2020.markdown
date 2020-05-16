@@ -1,0 +1,286 @@
+---
+layout:     post
+title:      "部署TiKV集群"
+date:       2020-5-16 22:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - 分布式数据库
+    - TiDB
+    - TiKV
+    - golang
+---
+
+
+## 部署
+
+#### 尝试使用docker-compose部署 无法直接访问TiKV
+
+Mac系统，使用这种方式部署，无法直接访问TiKV
+
+因为访问TiKV需要 host network mode ，但是Mac上的docker没实现这种模式。
+
+> When using TiKV directly without TiDB, host network mode must be enabled. This way all services use host network without isolation. So you can access all services on the host machine.
+> Note: Docker for Mac uses a Linux virtual machine, host network mode will not expose any services to host machine. So it's useless to use this mode.
+
+
+https://github.com/pingcap/tidb-docker-compose/
+
+
+#### 尝试使用二进制部署
+
+在官网上，没有Mac上的二进制包
+
+https://tikv.org/docs/3.0/tasks/deploy/binary/
+
+尝试自己打包，分别clone TiDB TiKV PD ， 分别编译二进制文件。
+
+分别运行组件：
+
+
+```
+pd:
+	/Users/zhang/learn/pd/bin/pd-server --name=pd1 \
+                    --data-dir=pd1 \
+                    --client-urls="http://127.0.0.1:2379" \
+                    --peer-urls="http://127.0.0.1:2380" \
+                    --initial-cluster="pd1=http://127.0.0.1:2380" \
+                    --log-file=pd1.log
+
+tikv1:
+	/Users/zhang/learn/tikv/target/debug/tikv-server --pd-endpoints="127.0.0.1:2379" \
+	                --addr="127.0.0.1:20160" \
+	                --data-dir=tikv1 \
+	                --log-file=tikv1.log
+
+tikv2:
+	/Users/zhang/learn/tikv/target/debug/tikv-server --pd-endpoints="127.0.0.1:2379" \
+	                --addr="127.0.0.1:20161" \
+	                --data-dir=tikv2 \
+	                --log-file=tikv2.log
+
+tikv3:
+	/Users/zhang/learn/tikv/target/debug/tikv-server --pd-endpoints="127.0.0.1:2379" \
+	                --addr="127.0.0.1:20162" \
+	                --data-dir=tikv3 \
+	                --log-file=tikv3.log
+```
+
+
+#### 使用TiUP部署
+
+在官网上发现新出了TiUP，通过这个命令部署，很方便。
+
+```
+tiup playground --db 1 --pd 3 --kv 3
+```
+
+
+
+## 写程序操作TiKV
+
+#### 使用 "github.com/pingcap/tidb/store/tikv" 这个包操作TiKV
+
+使用这种方式操作TiKV，遇到了很多go module的问题。
+
+
+运行go程序时报错：
+```
+build rawkv-demo: cannot load github.com/pingcap/pd/pd-client: cannot find module providing package github.com/pingcap/pd/pd-client
+```
+
+尝试执行：
+```
+GO111MODULE=on go get -u github.com/pingcap/tidb@master
+```
+
+
+报很多错，类似：
+```
+go: github.com/golang/lint@v0.0.0-20190409202823-959b441ac422: parsing go.mod: unexpected module path "golang.org/x/lint"
+
+module declares its path as
+
+used for two different module paths
+
+```
+
+通过replace解决：
+```
+replace github.com/uber-go/atomic v1.6.0 => go.uber.org/atomic v1.6.0
+
+replace go.uber.org/atomic v1.6.0 => github.com/uber-go/atomic v1.6.0
+
+replace github.com/coreos/bbolt v1.3.4 => go.etcd.io/bbolt v1.3.4
+
+replace go.etcd.io/bbolt v1.3.4 => github.com/coreos/bbolt v1.3.4
+```
+
+解决了上面的问题后，又遇到问题：
+```
+go: gopkg.in/fsnotify.v1@v1.4.9: unexpected status (https://goproxy.io/gopkg.in/fsnotify.v1/@v/v1.4.9.mod): 404 Not Found
+```
+
+解决：
+```
+replace gopkg.in/fsnotify.v1 => github.com/Jwsonic/recinotify v0.0.0-20151201212458-7389700f1b43
+```
+
+
+
+
+参考资料：
+
+https://tikv.org/docs/3.0/reference/clients/go/
+
+https://studygolang.com/articles/20271
+
+https://blog.csdn.net/oscarun/article/details/105321846
+
+
+
+#### 使用 "github.com/tikv/client-go/rawkv" 这个包操作TiKV
+
+使用这个包的时候，遇到的go module问题少一些
+
+跑一个官方例子，可以正常读写数据。
+
+```go
+package main
+
+import (
+	"context"
+	"flag"
+	"fmt"
+	"os"
+
+	"github.com/tikv/client-go/config"
+	"github.com/tikv/client-go/key"
+	"github.com/tikv/client-go/txnkv"
+)
+
+// KV represents a Key-Value pair.
+type KV struct {
+	K, V []byte
+}
+
+func (kv KV) String() string {
+	return fmt.Sprintf("%s => %s (%v)", kv.K, kv.V, kv.V)
+}
+
+var (
+	client *txnkv.Client
+	pdAddr = flag.String("pd", "127.0.0.1:2379", "pd address")
+)
+
+// Init initializes information.
+func initStore() {
+	var err error
+	client, err = txnkv.NewClient(context.TODO(), []string{*pdAddr}, config.Default())
+	if err != nil {
+		panic(err)
+	}
+}
+
+// key1 val1 key2 val2 ...
+func puts(args ...[]byte) error {
+	tx, err := client.Begin(context.TODO())
+	if err != nil {
+		return err
+	}
+
+	for i := 0; i < len(args); i += 2 {
+		key, val := args[i], args[i+1]
+		err := tx.Set(key, val)
+		if err != nil {
+			return err
+		}
+	}
+	return tx.Commit(context.Background())
+}
+
+func get(k []byte) (KV, error) {
+	tx, err := client.Begin(context.TODO())
+	if err != nil {
+		return KV{}, err
+	}
+	v, err := tx.Get(context.TODO(), k)
+	if err != nil {
+		return KV{}, err
+	}
+	return KV{K: k, V: v}, nil
+}
+
+func dels(keys ...[]byte) error {
+	tx, err := client.Begin(context.TODO())
+	if err != nil {
+		return err
+	}
+	for _, key := range keys {
+		err := tx.Delete(key)
+		if err != nil {
+			return err
+		}
+	}
+	return tx.Commit(context.Background())
+}
+
+func scan(keyPrefix []byte, limit int) ([]KV, error) {
+	tx, err := client.Begin(context.TODO())
+	if err != nil {
+		return nil, err
+	}
+	it, err := tx.Iter(context.TODO(), key.Key(keyPrefix), nil)
+	if err != nil {
+		return nil, err
+	}
+	defer it.Close()
+	var ret []KV
+	for it.Valid() && limit > 0 {
+		ret = append(ret, KV{K: it.Key()[:], V: it.Value()[:]})
+		limit--
+		it.Next(context.TODO())
+	}
+	return ret, nil
+}
+
+func main() {
+	pdAddr := os.Getenv("PD_ADDR")
+	if pdAddr != "" {
+		os.Args = append(os.Args, "-pd", pdAddr)
+	}
+	flag.Parse()
+	initStore()
+
+	// set
+	err := puts([]byte("key1"), []byte("value1"), []byte("key2"), []byte("value2"))
+	if err != nil {
+		panic(err)
+	}
+
+	// get
+	kv, err := get([]byte("key1"))
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(kv)
+
+	// scan
+	ret, err := scan([]byte("key"), 10)
+	for _, kv := range ret {
+		fmt.Println(kv)
+	}
+
+	// delete
+	err = dels([]byte("key1"), []byte("key2"))
+	if err != nil {
+		panic(err)
+	}
+}
+
+```
+
+ 
+
+
