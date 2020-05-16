@@ -22,6 +22,8 @@ Mac系统，使用这种方式部署，无法直接访问TiKV
 因为访问TiKV需要 host network mode ，但是Mac上的docker没实现这种模式。
 
 > When using TiKV directly without TiDB, host network mode must be enabled. This way all services use host network without isolation. So you can access all services on the host machine.
+>
+>
 > Note: Docker for Mac uses a Linux virtual machine, host network mode will not expose any services to host machine. So it's useless to use this mode.
 
 
@@ -34,9 +36,9 @@ https://github.com/pingcap/tidb-docker-compose/
 
 https://tikv.org/docs/3.0/tasks/deploy/binary/
 
-尝试自己打包，分别clone TiDB TiKV PD ， 分别编译二进制文件。
+尝试自己打包，分别clone TiDB TiKV PD ， 并编译二进制文件。
 
-分别运行组件：
+运行组件：
 
 
 ```
@@ -70,8 +72,9 @@ tikv3:
 
 #### 使用TiUP部署
 
-在官网上发现新出了TiUP，通过这个命令部署，很方便。
+在官网上发现新出了TiUP，通过TiUP部署，要比上面的方式方便很多。
 
+命令：
 ```
 tiup playground --db 1 --pd 3 --kv 3
 ```
