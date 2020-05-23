@@ -54,10 +54,6 @@ https://github.com/zhang555/smart_car
 
 #### 电路板
 
- 
-![](/img/car/board.jpg)
-
-
 学弟的电路板 电源线太窄了 烧了很多个 哈哈
 
 ![](/img/car/student board.jpg)
