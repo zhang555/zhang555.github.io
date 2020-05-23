@@ -8,6 +8,7 @@ catalog: true
 tags:
     - 四轴飞行器
     - 智能硬件
+    - 实用新型专利
 ---
 
 ## 四轴飞行器
@@ -48,6 +49,14 @@ tags:
 ## GitHub
 
 https://github.com/zhang555/my_quadcopter
+
+## 申请了实用新型专利
+
+![](/img/四轴/实用新型专利.png)
+
+
+
+
 
 
 
