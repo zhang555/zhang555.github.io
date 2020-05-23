@@ -1,0 +1,26 @@
+---
+layout:     post
+title:      "并发模型"
+date:       2018-3-18 22:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - 并发模型
+---
+
+ 
+## 并发模型
+
+* 单进程 单线程 循环处理请求
+* 多进程
+* 多线程
+* 单线程 （回调 事件轮询）
+* 协程
+
+
+
+
+## 参考资料
+
+https://gobomb.github.io/post/high-concurrency-model/

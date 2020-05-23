@@ -45,4 +45,45 @@ tags:
 https://github.com/zhang555/smart_car
 
 
+## 图片
+
+#### 电路板
+
+ 
+![](/img/car/board.jpg)
+
+
+学弟的电路板 电源线太窄了 烧了很多个 哈哈
+
+![](/img/car/student board.jpg)
+
+
+#### 智能车
+
+
+![](/img/car/1.jpg)
+![](/img/car/car1.jpg)
+![](/img/car/car2.jpg)
+
+
+跑的太快了，一下撞成了两半
+![](/img/car/damage.jpg)
+
+
+
+#### 比赛地点 秦皇岛
+
+![](/img/car/秦皇岛1.jpg)
+![](/img/car/秦皇岛2.jpg)
+![](/img/car/game.jpg)
+
+
+
+
+#### 获奖证书
+
+
+![](/img/car/2.jpg)
+
+
 
