@@ -1,0 +1,39 @@
+---
+layout:     post
+title:      "MySQL InnoDB 隔离级别"
+date:       2018-3-20 22:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - 后端开发
+    - MySQL
+    - InnoDB
+    - 隔离级别
+---
+
+
+ 
+## MySQL InnoDB 隔离级别
+
+
+
+| |    脏写 |  脏读 | 读偏斜   | 写偏斜 |
+|  ----  | ----  |----|----|----|
+| 读未提交  |  不可能 |  可能 | 可能  |可能 |
+| 读已提交  | 不可能 | 不可能 | 可能 |可能|
+| 可重复读  | 不可能 | 不可能  | 不可能 | 可能|
+
+
+使用for update防止丢失更新 防止写偏斜
+
+
+
+## github地址
+
+- [https://github.com/zhang555/MySQL-InnoDB-Isolation-Level](https://github.com/zhang555/MySQL-InnoDB-Isolation-Level)
+
+
+
+
+
