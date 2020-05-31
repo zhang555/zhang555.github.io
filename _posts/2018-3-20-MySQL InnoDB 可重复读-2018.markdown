@@ -25,11 +25,11 @@ tags:
 | 可重复读  | 不可能 | 不可能  | 不可能 | 可能|
 
 
-使用for update防止丢失更新 防止写偏斜
+可重复读隔离级别：使用for update防止丢失更新 防止写偏斜
 
 
 
-## github地址
+## GitHub地址
 
 - [https://github.com/zhang555/MySQL-InnoDB-Isolation-Level](https://github.com/zhang555/MySQL-InnoDB-Isolation-Level)
 
