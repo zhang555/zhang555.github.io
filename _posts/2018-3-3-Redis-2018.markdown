@@ -1,0 +1,38 @@
+---
+layout:     post
+title:      "Redis"
+date:       2018-3-3 20:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - 后端开发
+    - Redis
+---
+
+## 批量删除key
+
+不能使用keys命令，会阻塞其他操作。使用scan
+
+
+```
+redis-cli -h 127.0.0.1 -p 6379 --scan --pattern 's*'| xargs redis-cli -h 127.0.0.1 -p 6379 del
+```
+
+
+## 查看大key
+
+
+```
+redis-cli --bigkeys -i 0.1 -h 127.0.0.1
+```
+
+
+## 使用rdb-tools 分析redis rdb文件
+
+
+```
+rdb -c memory redisrdb1.rdb --bytes 128 -f  dump_memory1.csv
+```
+
+

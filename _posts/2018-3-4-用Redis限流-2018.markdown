@@ -1,0 +1,66 @@
+---
+layout:     post
+title:      "用Redis限流"
+date:       2018-3-4 20:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - 后端开发
+    - Redis
+    - 限流
+---
+
+## 用Redis限流
+
+```
+
+func TestName(t *testing.T) {
+
+	const (
+		Key1 = `key1`
+	)
+
+	Client.Del(Key1)
+
+	script := `
+local key = KEYS[1]  
+local capacity = tonumber(ARGV[1])  
+local duration = ARGV[2]  
+
+local current = tonumber(redis.call('INCR', key))
+if current > capacity then  
+    return 0
+else
+    if current == 1
+    then
+        redis.call("EXPIRE", key, duration)
+    end
+    return current
+end
+`
+
+	for i := 0; i < 100; i++ {
+
+		time.Sleep(time.Millisecond * 100)
+
+		result, err := Client.Eval(script, []string{Key1}, 3, 1).Result()
+		if err != nil {
+			log.Fatal(err)
+		}
+		s, ok := result.(int64)
+		if !ok {
+			log.Fatal()
+		}
+
+		if s != 0 {
+			log.Println(i, ` get token success`)
+		} else {
+			log.Println(i, ` get token fail`)
+		}
+
+	}
+}
+
+```
+
