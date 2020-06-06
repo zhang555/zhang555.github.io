@@ -1,0 +1,26 @@
+---
+layout:     post
+title:      "vue项目部署"
+date:       2018-3-6 22:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - 前端
+    - vue
+    - nginx
+---
+
+ 
+## vue项目部署
+
+通过 `npm run build` 打包出 dist文件夹
+
+使用nginx指向这个文件夹即可
+
+```
+    location / {
+      alias   /Users/zhang/dist/;
+      index  index.html index.htm;
+    }
+```

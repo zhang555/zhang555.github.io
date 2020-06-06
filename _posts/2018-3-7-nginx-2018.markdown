@@ -1,0 +1,57 @@
+---
+layout:     post
+title:      "nginx"
+date:       2018-3-7 22:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - nginx
+    - 后端开发
+---
+
+
+ 
+## nginx
+
+
+
+#### 代理本地路径
+
+
+代理文件夹
+```
+    location / {
+      alias   /Users/zhang/dist/;
+      index  index.html index.htm;
+    }
+```
+
+
+显示文件夹下所有文件
+```
+    location /re2 {
+      alias   /Users/zhang/file/;
+      autoindex on;
+      index  index.html index.htm;
+    }
+
+```
+
+
+
+#### 负载均衡
+
+
+```
+  upstream backend {
+    server 192.168.2.154:1111;
+    server 192.168.2.154:2222;
+  }
+
+
+    location /re3 {
+      proxy_pass  http://backend;
+    }
+```
+
