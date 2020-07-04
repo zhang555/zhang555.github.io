@@ -9,4 +9,71 @@ tags:
     - 机器学习
 ---
 
+
+## 第一周
+
+
+#### 什么是机器学习
+
+两种定义：
+* the field of study that gives computers the ability to learn without being explicitly programmed
+* A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P, if its performance at tasks in T, as measured by P, improves with experience E.
+
+
+#### 监督学习
+
+在监督学习中，使用的数据集，是有输入和正确的输出
+
+监督学习可以分为回归和分类。如果数据是连续的，就是回归。如果数据是不连续的，就是分类。
+
+#### 无监督学习
+
+Unsupervised learning allows us to approach problems with little or no idea what our results should look like.
+
+#### 模型 损失函数
+
+
+To describe the supervised learning problem slightly more formally, our goal is, given a training set, to learn a function h : X → Y so that h(x) is a “good” predictor for the corresponding value of y. 
+
+![](/img/ml/cost function.jpg)
+
+
+#### 参数学习 
+
+梯度下降：
+
+![](/img/ml/gradient descent.jpg)
+
+
+
+#### 线性代数复习
+
+
+
+## 第二周
+
+#### 多变量线性回归
+#### 多变量梯度下降
+#### 梯度下降特征缩放
+#### 特征和多项式回归
+
+
+#### 正规方程
+
+![](/img/ml/normal equation.jpg)
+
  
+
+
+
+## 参考资料
+
+https://www.coursera.org/learn/machine-learning/home/welcome
+
+
+
+
+
+
+
+
