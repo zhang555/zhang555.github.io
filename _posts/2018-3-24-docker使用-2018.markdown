@@ -1,0 +1,88 @@
+---
+layout:     post
+title:      "docker使用"
+date:       2018-3-24 20:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - docker
+    - 后端开发
+    - golang
+---
+
+
+## docker
+
+
+#### 下载image用国内镜像
+
+
+```
+vim /etc/docker/daemon.json
+```
+
+```
+{
+  "registry-mirrors": ["https://registry.docker-cn.com"]
+}
+```
+
+
+```
+service docker restart
+```
+
+
+
+## docker命令
+
+
+#### image
+
+```
+docker images 
+docker image ls
+docker image pull nginx:1.11
+docker image rm nginx:1.11
+docker image tag nginx:1.12 nginx:v1
+```
+
+#### container
+
+```
+docker container ls 
+docker container ls -a
+docker container ls -aq
+
+docker container rm <hash>      
+
+docker rm $(docker ps -q )：删除已经停止的容器
+docker rm -f $(docker ps -aq )：删除所有容器
+docker container rm $(docker container ls -a -q)      
+
+docker start name
+docker stop name
+docker rm name
+docker container kill <hash>         
+
+docker container stop $(docker container ls -a -q) 
+```
+
+#### exec 
+
+```
+docker exec -it nginx1 bash
+docker exec -it nginx1 sh 
+```
+
+
+## 容器管理
+当容器数量较少时，可以手动管理各个容器，但是当容器数量增多时，需要一些自动化工具
+
+* docker-compose
+* docker swarm 
+* kubernetes (k8s)
+* lightweight kubernetes (k3s):
+
+
