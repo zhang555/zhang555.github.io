@@ -11,15 +11,14 @@ tags:
 ---
 
 
-## deployment
+## 无损 滚动更新
 
 
 
 
 ## 参考资料
 
-https://v1-18.docs.kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/
-
+https://www.qikqiak.com/post/zero-downtime-rolling-update-k8s/
 
 
 
