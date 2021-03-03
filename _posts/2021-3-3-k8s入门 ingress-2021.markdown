@@ -1,0 +1,124 @@
+---
+layout:     post
+title:      "k8s入门 ingress"
+date:       2021-3-3 22:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - k8s 1.18
+    - ingress
+---
+
+
+## ingress
+
+
+
+启动 k8s:
+```
+minikube start --vm=true  --kubernetes-version='1.18.4'
+```
+
+开启ingress：
+```
+minikube addons enable ingress
+```
+
+
+创建deployment：
+```
+kubectl create deployment web --image=gcr.io/google-samples/hello-app:1.0
+```
+
+给deployment暴露端口，该命令会创建service
+```
+kubectl expose deployment web --type=NodePort --port=8080
+```
+
+
+查看 web 这个 service 的url
+```
+minikube service web --url
+```
+
+
+访问该service：
+```
+curl $(minikube service web --url)
+```
+
+
+
+创建ingress：
+```
+kubectl apply -f example-ingress.yaml
+```
+
+example-ingress.yaml ： 
+```yaml
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: example-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  rules:
+  - host: hello-world.info
+    http:
+      paths:
+      - path: /text_predict
+        pathType: Prefix # Prefix Exact ImplementationSpecific
+        backend:
+          serviceName: bert-service
+          servicePort: 8000
+#              serviceName: nginx-service
+#              servicePort: 80
+#          - path: /text_predict2
+#            pathType: Exact
+#            backend:
+#              serviceName: bert-service2
+#              servicePort: 8000
+      - path: /nginx
+        pathType: Prefix
+        backend:
+          serviceName: nginx-service
+          servicePort: 80
+
+```
+
+
+
+
+查看ingress： 可以查看到ingress的ip地址
+```
+kubectl get ingress
+```
+
+
+
+将 域名与ip的对应关系 添加到 /etc/hosts 文件里面
+```
+192.168.64.2 hello-world.info
+```
+
+
+访问：
+```
+curl hello-world.info
+```
+
+
+
+## 参考资料
+
+https://v1-18.docs.kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/
+
+
+
+
+
+
+
+
