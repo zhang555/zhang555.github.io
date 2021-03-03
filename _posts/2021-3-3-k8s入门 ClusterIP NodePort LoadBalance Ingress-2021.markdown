@@ -135,6 +135,12 @@ curl -XPOST 192.168.64.3:32083
 ```
 
 
+## LoadBalance
+
+
+## Ingress
+
+
 
 ## 参考资料
 
