@@ -1,0 +1,134 @@
+---
+layout:     post
+title:      "k8s入门 存活检测器 启动检测器 就绪检测器"
+date:       2021-3-1 22:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - k8s 1.18
+---
+
+
+
+## 存活检测器 livenessProbe
+
+存活检测器 会执行命令，如果返回成功，就不重启pod，如果返回失败，就重启pod。
+
+
+创建一个pod：
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness
+  name: liveness-exec
+spec:
+  containers:
+  - name: liveness
+    image: nginx:latest
+    args:
+    - /bin/sh
+    - -c
+    - touch /tmp/healthy; sleep 30; rm -rf /tmp/healthy; sleep 600 # 启动时 创建文件 30秒后删除
+    livenessProbe: # 存活检测器
+      exec:
+        command: # 检测器 具体执行的命令
+        - cat
+        - /tmp/healthy
+      initialDelaySeconds: 5 # 第一次执行检测器 等5秒
+      periodSeconds: 5 # 周期 5秒
+
+```
+
+这个pod的container定义的有存活检测器 livenessProbe
+
+在前30秒检测成功，在30秒之后，因为找不到文件，所以检测失败，pod会进行重启
+
+
+```
+kubectl get pod liveness-exec
+```
+
+```
+NAME            READY   STATUS    RESTARTS   AGE
+liveness-exec   1/1     Running   4          7m21s
+```
+
+
+
+## 启动检测器 startupProbe
+
+
+
+```yaml
+ports:
+- name: liveness-port
+  containerPort: 8080
+  hostPort: 8080
+
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: liveness-port
+  failureThreshold: 1
+  periodSeconds: 10
+
+startupProbe:
+  httpGet:
+    path: /healthz
+    port: liveness-port
+  failureThreshold: 30
+  periodSeconds: 10
+```
+
+
+有了启动检测器，应用程序将会有最多 5 分钟(30 * 10 = 300s) 的时间来完成它的启动。 
+
+一旦启动检测器成功一次，存活检测器任务就会接管对容器的检测，对容器死锁可以快速响应。 
+
+如果启动检测器一直没有成功，容器会在 300 秒后被杀死，并且根据 restartPolicy 来设置 Pod 状态。
+
+
+
+
+
+## 就绪检测器 readinessProbe
+
+
+```yaml
+readinessProbe:
+  exec:
+    command:
+    - cat
+    - /tmp/healthy
+  initialDelaySeconds: 5
+  periodSeconds: 5
+```
+
+
+就绪检测器 和 存活检测器 可以在同一个容器上并行使用。
+ 
+两者都用可以确保流量不会发给还没有准备好的容器，并且容器会在它们失败的时候被重新启动。
+
+如果就绪检测器 返回成功， 流量就会打到该pod上。 否则就不会打到该pod上。
+
+
+
+
+
+
+
+
+## 参考资料
+
+https://kubernetes.io/zh/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+
+
+
+
+
+
+
+
