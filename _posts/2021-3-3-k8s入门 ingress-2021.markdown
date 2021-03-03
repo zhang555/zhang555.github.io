@@ -68,23 +68,10 @@ spec:
   - host: hello-world.info
     http:
       paths:
-      - path: /text_predict
-        pathType: Prefix # Prefix Exact ImplementationSpecific
+      - path: /
         backend:
-          serviceName: bert-service
-          servicePort: 8000
-#              serviceName: nginx-service
-#              servicePort: 80
-#          - path: /text_predict2
-#            pathType: Exact
-#            backend:
-#              serviceName: bert-service2
-#              servicePort: 8000
-      - path: /nginx
-        pathType: Prefix
-        backend:
-          serviceName: nginx-service
-          servicePort: 80
+          serviceName: web
+          servicePort: 8080
 
 ```
 
