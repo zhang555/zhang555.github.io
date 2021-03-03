@@ -1,0 +1,60 @@
+---
+layout:     post
+title:      "k8s入门 常用命令"
+date:       2021-3-2 22:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - k8s 1.18
+---
+
+
+## 常用命令
+
+
+#### 进入pod
+```
+kubectl exec -it <podName> -c <containerName> -n <namespace> -- shell comand
+
+#适用于当前pod只有一个容器
+kubectl exec -it superset-3fpnq -- /bin/bash      
+
+#适用于当前pod只有一个容器 --container or -c 参数
+kubectl exec -it superset-3fpnq --container main-app -- /bin/bash  
+
+
+参考资料：
+https://blog.csdn.net/tengxing007/article/details/90512764
+
+```
+
+
+
+```
+```
+
+
+
+```
+```
+
+
+
+```
+```
+
+
+
+```
+```
+
+
+
+## 参考资料
+
+
+
+
+
+
