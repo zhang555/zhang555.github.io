@@ -138,13 +138,53 @@ curl -XPOST 192.168.64.3:32083
 ## LoadBalance
 
 
+If you want to directly expose a service, this is the default method. 
+
+All traffic on the port you specify will be forwarded to the service. 
+
+There is no filtering, no routing, etc. 
+
+This means you can send almost any kind of traffic to it, like HTTP, TCP, UDP, Websockets, gRPC, or whatever.
+
+The big downside is that each service you expose with a LoadBalancer will get its own IP address, 
+and you have to pay for a LoadBalancer per exposed service, which can get expensive!
+
+
 ## Ingress
 
+Ingress可能是暴露服务最强大的方式，但也可能是最复杂的。
+
+创建Ingress的例子：
+```yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: my-ingress
+spec:
+  backend:
+    serviceName: other
+    servicePort: 8080
+  rules:
+  - host: foo.mydomain.com
+    http:
+      paths:
+      - backend:
+          serviceName: foo
+          servicePort: 8080
+  - host: mydomain.com
+    http:
+      paths:
+      - path: /bar/*
+        backend:
+          serviceName: bar
+          servicePort: 8080
+```
 
 
 ## 参考资料
 
 https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0
+
 
 https://v1-18.docs.kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/
 
