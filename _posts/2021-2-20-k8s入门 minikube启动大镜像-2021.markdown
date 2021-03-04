@@ -1,0 +1,37 @@
+---
+layout:     post
+title:      "k8s入门 minikube启动大镜像"
+date:       2021-2-20 22:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - k8s 1.18
+---
+
+
+## minikube 启动大镜像
+
+使用minikube启动大的镜像的时候，需要把这个镜像从仓库拉下来，这个操作往往比较慢。
+
+如果本地有该镜像的话 可以通过minikube的命令，将镜像从本地推到minikube里面。
+
+```
+minikube cache add alpine:latest
+```
+ 
+
+
+## 参考资料
+
+https://stackoverflow.com/questions/42564058/how-to-use-local-docker-images-with-minikube/56302571
+
+
+https://minikube.sigs.k8s.io/docs/handbook/pushing/#2-push-images-using-cache-command
+
+
+
+
+
+
+
