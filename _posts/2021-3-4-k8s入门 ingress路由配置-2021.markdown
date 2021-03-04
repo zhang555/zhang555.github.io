@@ -1,0 +1,65 @@
+---
+layout:     post
+title:      "k8s入门 ingress路由配置"
+date:       2021-3-4 22:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - k8s 1.18
+    - ingress
+---
+
+
+## ingress路由配置
+
+
+假设我想实现这样的路由规则：
+```
+api.xxx.com/comment/go  ---> comment服务 ---> 对应于 10.5.3.28:8080/go
+api.xxx.com/account/go  ---> account服务 ---> 对应于 10.5.3.28:8081/go
+api.xxx.com/bops/go ---> bops服务 ---> 对应于 10.5.3.28:8082/go
+```
+
+ingress这样配置即可：
+```yaml
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: example-ingress2
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+    - host: hello-world.info2
+      http:
+        paths:
+          - path: /text1(/|$)(.*)
+            backend:
+              serviceName: bert-service
+              servicePort: 8000
+          - path: /text2(/|$)(.*)
+            backend:
+              serviceName: bert-service2
+              servicePort: 8000
+```
+这个配置就是 通过前面的字符串进行匹配，匹配之后，将后面的字符串传到服务里面。
+
+这个方式的好处就是服务内的url不用动，通过ingress的配置进行转发。
+
+
+
+## 参考资料
+
+https://blog.csdn.net/jacksonary/article/details/94756633
+
+
+https://v1-18.docs.kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/
+
+
+
+
+
+
+
+

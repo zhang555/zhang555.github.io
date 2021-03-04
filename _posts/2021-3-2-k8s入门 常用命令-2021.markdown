@@ -30,24 +30,38 @@ https://blog.csdn.net/tengxing007/article/details/90512764
 ```
 
 
-
-```
-```
-
+#### 将文件拷贝到pod里面
 
 
 ```
+kubectl -n namespace cp ./file.yaml pod-hash:/folder/file.yaml
+```
+
+
+#### 进入ingress所在的pod
+
+
+执行：
+```
+kubectl get pod -A
+```
+
+output：
+```
+kube-system   ingress-nginx-admission-create-2p8xw      0/1     Completed   0          3h40m
+kube-system   ingress-nginx-admission-patch-csvtv       0/1     Completed   0          3h40m
+kube-system   ingress-nginx-controller-dff6f7b7-nfm6d   1/1     Running     0          3h40m
+```
+
+执行：
+```
+kubectl logs -n kube-system ingress-nginx-controller-dff6f7b7-nfm6d
+kubectl logs -f -n kube-system ingress-nginx-controller-dff6f7b7-nfm6d
 ```
 
 
 
-```
-```
 
-
-
-```
-```
 
 
 
