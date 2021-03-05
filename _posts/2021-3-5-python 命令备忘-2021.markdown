@@ -1,0 +1,47 @@
+---
+layout:     post
+title:      "python命令备忘"
+date:       2021-3-4 22:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - python
+---
+
+
+## python命令备忘
+
+
+```
+virtualenv venv
+
+source venv/bin/activate
+
+virtualenv venv --python=python3.6
+virtualenv venv --python=python3.7
+virtualenv venv --python=python3.8
+
+activate
+
+deactivate
+
+```
+
+
+
+
+```
+
+pip3 freeze  > requirements.txt
+
+
+```
+
+
+## 参考资料
+
+
+
+
+
