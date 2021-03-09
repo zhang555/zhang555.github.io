@@ -13,6 +13,84 @@ tags:
 
 ## 无损 滚动更新
 
+在deployment上执行滚动更新的时候，如果想要保证无损，可以参考下面的配置文件：
+
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bert-deployment
+  labels:
+    app: bert
+spec:
+  replicas: 3
+  minReadySeconds: 20 # New Pods become ready or available (ready for at least MinReadySeconds).
+
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+
+  selector:
+    matchLabels:
+      app: bert
+  template:
+    metadata:
+      labels:
+        app: bert
+    spec:
+      terminationGracePeriodSeconds: 20 #
+      containers:
+        - name: bert
+          image: test/bert2:test
+          ports:
+            - containerPort: 8000
+          imagePullPolicy: IfNotPresent # IfNotPresent Never
+
+          #
+          livenessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            exec:
+              command: # 检测器 具体执行的命令
+              - "curl"
+              - "-X POST"
+              - "localhost:8000/text_predict"
+              - "-d"
+              - "'{}'"
+          #
+          readinessProbe:
+            exec:
+              command: # 检测器 具体执行的命令
+              - "curl"
+              - "-X POST"
+              - "localhost:8000/text_predict"
+              - "-d"
+              - "'{}'"
+            periodSeconds: 5
+
+          startupProbe:
+            exec:
+              command: # 检测器 具体执行的命令
+                - "curl"
+                - "-X POST"
+                - "localhost:8000/text_predict"
+                - "-d"
+                - "'{}'"
+            failureThreshold: 30  # 当探测失败时，Kubernetes 的重试次数。 存活探测情况下的放弃就意味着重新启动容器。 就绪探测情况下的放弃 Pod 会被打上未就绪的标签。默认值是 3。最小值是 1。
+            periodSeconds: 10 # 每10秒检查一次
+
+      imagePullSecrets:
+        - name: hub.test.company.com.key
+```
+
+
+1：minReadySeconds ， 这个字段用来控制pod变成ready的最低时间，这里设置了20秒，给pod20秒的启动时间。
+
+
+2：存活检测器 就绪检测器 启动检测器， 三个检测器需要进行配置。
 
 
 
@@ -20,6 +98,15 @@ tags:
 
 https://www.qikqiak.com/post/zero-downtime-rolling-update-k8s/
 
+
+https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+
+
+
+https://damoshushu.github.io/2019/01/12/k8s-terminationGracePeriodSeconds/
+
+
+https://github.com/ContainerSolutions/k8s-deployment-strategies/tree/master/ramped
 
 
 
