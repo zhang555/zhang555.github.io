@@ -1,0 +1,47 @@
+---
+layout:     post
+title:      "docker内用gpu训练模型"
+date:       2021-3-7 22:00:00
+author:     "zhang"
+header-img: "img/post-bg-2019.jpg"
+catalog: true
+tags:
+    - python
+    - docker
+---
+ 
+## 直接在机器上使用gpu训练
+
+需要在机器上安装3个东西，nvidia驱动，CUDA，cuDNN：
+
+nvidia驱动：
+https://docs.nvidia.com/datacenter/tesla/tesla-installation-notes/index.html#abstract
+
+CUDA：
+https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&target_distro=Ubuntu&target_version=1804&target_type=runfilelocal
+
+cuDNN：
+https://developer.nvidia.com/zh-cn/cudnn
+
+
+
+
+## docker内用gpu训练模型
+
+在机器上只需要安装nvidia驱动。CUDA，cuDNN使用官方打包好的镜像。
+
+将训练程序打包到镜像里面：
+```
+FROM  nvidia/cuda:11.1-cudnn8-runtime-ubuntu18.04
+```
+
+docker hub地址：
+https://hub.docker.com/r/nvidia/cuda/tags?page=1&ordering=last_updated
+
+
+## 参考资料
+
+
+https://zhuanlan.zhihu.com/p/72298520
+
+
