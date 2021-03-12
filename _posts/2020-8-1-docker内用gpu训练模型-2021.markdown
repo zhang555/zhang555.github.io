@@ -33,6 +33,12 @@ https://developer.nvidia.com/zh-cn/cudnn
 
 https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker
 
+报错解决：
+
+https://github.com/NVIDIA/nvidia-docker/issues/1409
+
+https://github.com/NVIDIA/nvidia-docker/issues/1034
+
 
 #### 使用官方打包好的镜像
 
@@ -48,6 +54,27 @@ https://hub.docker.com/r/nvidia/cuda/tags?page=1&ordering=last_updated
 
 
 
+
+## 相关命令
+
+查看有没有显卡
+lspci | grep -i nvidia 
+
+查看nvidia驱动版本：
+cat /proc/driver/nvidia/version
+
+查看显卡名称以及驱动版本
+nvidia-smi
+nvidia-smi -a
+
+
+
+https://blog.csdn.net/s_sunnyy/article/details/64121826
+
+
+## nvidia驱动版本 和 CUDA版本 兼容关系
+
+https://docs.nvidia.com/deploy/cuda-compatibility/index.html
 
 
 ## 参考资料
