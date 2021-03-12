@@ -28,6 +28,14 @@ https://developer.nvidia.com/zh-cn/cudnn
 
 ## docker内用gpu训练模型
 
+
+#### 环境安装
+
+https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker
+
+
+#### 使用官方打包好的镜像
+
 在机器上只需要安装nvidia驱动。CUDA，cuDNN使用官方打包好的镜像。
 
 将训练程序打包到镜像里面：
@@ -37,6 +45,9 @@ FROM  nvidia/cuda:11.1-cudnn8-runtime-ubuntu18.04
 
 docker hub地址：
 https://hub.docker.com/r/nvidia/cuda/tags?page=1&ordering=last_updated
+
+
+
 
 
 ## 参考资料
