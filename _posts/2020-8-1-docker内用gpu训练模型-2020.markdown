@@ -1,13 +1,13 @@
 ---
 layout:     post
 title:      "docker内用gpu训练模型"
-date:       2021-3-7 22:00:00
+date:       2020-8-1 22:00:00
 author:     "zhang"
 header-img: "img/post-bg-2019.jpg"
 catalog: true
 tags:
-    - python
     - docker
+    - nvidia
 ---
  
 ## 直接在机器上使用gpu训练
