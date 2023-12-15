@@ -11,7 +11,7 @@ projects:
   - icon: project
     name: 语雀
     desc: 项目详细描述
-    link: https://你的项目链接
+    link: https://www.yuque.com/aixuexidenull/oe9u1k
 
   - icon: link
     name: 链接名称
