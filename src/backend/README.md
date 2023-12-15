@@ -4,6 +4,7 @@ index: true
 icon: laptop-code
 #color: #3eaf7c
 color: green
+isOriginal: true
 #pageInfo: true
 category:
   - 使用指南

@@ -31,9 +31,9 @@ export default hopeTheme({
   // sidebar
   sidebar,
 
-  footer: "默认页脚",
+  footer: "",
 
-  displayFooter: true,
+  displayFooter: false,
 
   blog: {
     // name: "一个程序员name",

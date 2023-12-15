@@ -40,7 +40,6 @@ export default sidebar({
     // sidebar: "heading",
 
 
-
     // "/": [
     //     {
     //
@@ -65,29 +64,25 @@ export default sidebar({
     // ],
 
     "/ai/": "structure",
-    //
-    // "/backend/": [
-    //     {
-    //
-    //         collapsible: false,
-    //
-    //         text: "指南",
-    //         icon: "lightbulb",
-    //         prefix: "",
-    //         children: [
-    //             "get-started/",
-    //             "interface/",
-    //             "layout/",
-    //             "markdown/",
-    //             "feature/",
-    //             "blog/",
-    //             "customize/",
-    //             "advanced/",
-    //
-    //             "backend/",
-    //         ],
-    //     },
-    // ],
+    // "contact": "contact.md",
+
+    "/backend/": [
+
+        // "",
+
+        {
+            collapsible: false,
+
+            text: "指南",
+            icon: "lightbulb",
+            prefix: "",
+            // children: [
+            //     "1-1back2",
+            //     "1-2back2",
+            // ],
+            children: "structure",
+        },
+    ],
 
 
     // fallback

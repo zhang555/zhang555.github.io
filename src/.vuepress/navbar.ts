@@ -22,6 +22,12 @@ export default navbar([
     link: "/news/",
   },
 
+  {
+    text: "欢迎交流",
+    icon: "book",
+    link: "contact",
+  },
+
   // {
   //   text: "博文",
   //   icon: "pen-to-square",
