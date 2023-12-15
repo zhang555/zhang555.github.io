@@ -37,8 +37,8 @@ export default hopeTheme({
 
   blog: {
     // name: "一个程序员name",
-    description: "一个程序员",
-    intro: "/intro.html",
+    description: "后端、算法工程师",
+    // intro: "/intro.html",
     medias: {
       // Baidu: "https://example.com",
       // BiliBili: "https://example.com",
@@ -46,14 +46,14 @@ export default hopeTheme({
       // Dingding: "https://example.com",
       // Discord: "https://example.com",
       // Dribbble: "https://example.com",
-      Email: "mailto:info@example.com",
-
-      DouYin: [
-        // 链接
-        "https://mediay.com/UserY/",
-        // 图标地址
-        path.resolve(__dirname, "public/assets/icon/douyin32.svg"),
-      ],
+      // Email: "mailto:info@example.com",
+      //
+      // DouYin: [
+      //   // 链接
+      //   "https://mediay.com/UserY/",
+      //   // 图标地址
+      //   path.resolve(__dirname, "public/assets/icon/douyin32.svg"),
+      // ],
 
       // Evernote: "https://example.com",
       // Facebook: "https://example.com",
