@@ -35,8 +35,60 @@ import {sidebar} from "vuepress-theme-hope";
 // });
 
 export default sidebar({
-    "/backend/": "structure",
+    // "/backend/": "structure",
+
+    // sidebar: "heading",
+
+
+
+    // "/": [
+    //     {
+    //
+    //         collapsible: false,
+    //
+    //         text: "指南",
+    //         icon: "lightbulb",
+    //         prefix: "",
+    //         children: [
+    //             // "get-started/",
+    //             // "interface/",
+    //             // "layout/",
+    //             // "markdown/",
+    //             // "feature/",
+    //             // "blog/",
+    //             // "customize/",
+    //             // "advanced/",
+    //
+    //             "/",
+    //         ],
+    //     },
+    // ],
+
     "/ai/": "structure",
+    //
+    // "/backend/": [
+    //     {
+    //
+    //         collapsible: false,
+    //
+    //         text: "指南",
+    //         icon: "lightbulb",
+    //         prefix: "",
+    //         children: [
+    //             "get-started/",
+    //             "interface/",
+    //             "layout/",
+    //             "markdown/",
+    //             "feature/",
+    //             "blog/",
+    //             "customize/",
+    //             "advanced/",
+    //
+    //             "backend/",
+    //         ],
+    //     },
+    // ],
+
 
     // fallback
     // "/": [

@@ -1,12 +1,10 @@
 ---
-title: AI
+title: 图片分类
 index: true
+order: 1
 icon: laptop-code
-collapsible: true
 category:
-  - 使用指南
 ---
 
 ## 目录
 
-AI

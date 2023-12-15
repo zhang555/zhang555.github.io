@@ -2,21 +2,24 @@
 home: true
 layout: BlogHome
 icon: home
-title: 博客主页
+title: 首页
+hero: false
+pageInfo: true
 #heroImage: /logo.svg
 #heroText: 你博客的名称
-#heroFullScreen: false
+#heroFullScreen: true
 #tagline: 你可以在这里放置你的口号与标语
-projects:
-  - icon: project
-    name: 语雀
-    desc: 项目详细描述
-    link: https://www.yuque.com/aixuexidenull/oe9u1k
 
-  - icon: link
-    name: 链接名称
-    desc: 链接详细描述
-    link: https://链接地址
+projects:
+#  - icon: project
+#    name: 语雀
+#    desc: 项目详细描述
+#    link: https://www.yuque.com/aixuexidenull/oe9u1k
+#
+#  - icon: link
+#    name: 链接名称
+#    desc: 链接详细描述
+#    link: https://链接地址
 #
 #  - icon: book
 #    name: 书籍名称
