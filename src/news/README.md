@@ -1,6 +1,10 @@
 ---
 title: 最新资讯
+index: false
 icon: home
----
 
-news
+dir:
+  collapsible: false
+
+
+---

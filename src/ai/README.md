@@ -1,16 +1,11 @@
 ---
 title: AI
-index: true
+index: false
 icon: laptop-code
 #collapsible: true
 #dir.collapsible: false
 dir:
     collapsible: false
-
 category:
-  - 使用指南
+  - AI
 ---
-
-## 目录
-
-AI
