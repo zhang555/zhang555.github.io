@@ -1,1 +1,0 @@
-import{_ as e}from"./plugin-vue_export-helper-x3n3nnut.js";import{o as t,c as o,a as n}from"./app-dCJdeKLp.js";const c={},_=n("p",null,"gemini",-1),s=[_];function i(r,a){return t(),o("div",null,s)}const f=e(c,[["render",i],["__file","gemini.html.vue"]]);export{f as default};
