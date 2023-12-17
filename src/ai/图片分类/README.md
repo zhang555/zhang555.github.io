@@ -3,7 +3,10 @@ title: 图片分类
 index: true
 order: 1
 icon: laptop-code
-category:
+
+dir:
+  collapsible: false
+
 ---
 
 ## 目录

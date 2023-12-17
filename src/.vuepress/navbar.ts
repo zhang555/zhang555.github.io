@@ -11,9 +11,16 @@ export default navbar([
   },
 
   {
-    text: "AI",
+    text: "AI技术",
     icon: "book",
     link: "/ai/",
+  },
+
+
+  {
+    text: "AI工具",
+    icon: "book",
+    link: "/tools/",
   },
 
   {
@@ -21,6 +28,7 @@ export default navbar([
     icon: "book",
     link: "/news/",
   },
+
 
   {
     text: "欢迎交流",

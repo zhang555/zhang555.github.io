@@ -3,7 +3,9 @@ title: AI
 index: true
 icon: laptop-code
 #collapsible: true
-dir.collapsible: false
+#dir.collapsible: false
+dir:
+    collapsible: false
 
 category:
   - 使用指南

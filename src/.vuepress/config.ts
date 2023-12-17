@@ -1,15 +1,30 @@
-import { defineUserConfig } from "vuepress";
+import {defineUserConfig} from "vuepress";
 import theme from "./theme.js";
 
+import {registerComponentsPlugin} from '@vuepress/plugin-register-components'
+
+import {path} from '@vuepress/utils'
+
+
 export default defineUserConfig({
-  base: "/",
+    base: "/",
 
-  lang: "zh-CN",
-  title: "程序员弓哥",
-  description: "",
+    lang: "zh-CN",
+    title: "程序员弓哥",
+    description: "",
 
-  theme,
+    theme,
 
-  // Enable it with pwa
-  // shouldPrefetch: false,
+
+    plugins: [
+        registerComponentsPlugin({
+            // 配置项
+            componentsDir: path.resolve(__dirname, './components'),
+
+
+        }),
+
+    ]
+    // Enable it with pwa
+    // shouldPrefetch: false,
 });

@@ -8,6 +8,11 @@ text: 标题
 dir.text: 标题
 dir.collapsible: false
 
+
+dir:
+  collapsible: false
+
+
 category:
   - 使用指南1
 ---

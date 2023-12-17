@@ -1,15 +1,17 @@
 ---
-home: true
-layout: BlogHome
-icon: home
-title: 首页
-hero: false
-pageInfo: true
-#heroImage: /logo.svg
-#heroText: 你博客的名称
-#heroFullScreen: true
-#tagline: 你可以在这里放置你的口号与标语
+title: 主要功能与配置演示
+index: false
+icon: laptop-code
 
+#layout: BlogHome
+
+#icon: home
+#title: 首页
+#home: true
+#
+#hero: false
+#pageInfo: true
+#
 #projects:
 #  - icon: project
 #    name: 语雀
@@ -40,7 +42,40 @@ pageInfo: true
 #    name: 自定义项目
 #    desc: 自定义详细介绍
 #    link: https://你的自定义链接
-
-footer: 
+#
+#
+#category:
+#  - 使用指南
 ---
+
+
+
+
+一加一等于: {{ 1 + 1 }}
+
+<span v-for="i in 3"> span: {{ i }} </span>
+
+这是默认主题内置的 `<Badge />` 组件 <Badge text="演示" />
+
+<MyComponent text="演示" />
+
+[//]: # (<VPCard text="演示" />)
+
+
+
+
+```component VPCard
+title: 1111
+desc: Where there is light, there is hope
+logo: https://mister-hope.com/logo.svg
+link: https://mister-hope.com
+background: rgba(253, 230, 138, 0.15)
+```
+
+
+
+
+```component MyComponent
+text: 123
+```
 
