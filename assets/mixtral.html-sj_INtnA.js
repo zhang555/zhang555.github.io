@@ -1,1 +1,0 @@
-import{_ as t}from"./plugin-vue_export-helper-x3n3nnut.js";import{o as a,c as r,a as e,b as o}from"./app-arexwCdS.js";const c={},s=e("h2",{id:"目录",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#目录","aria-hidden":"true"},"#"),o(" 目录")],-1),n=[s];function _(i,d){return a(),r("div",null,n)}const m=t(c,[["render",_],["__file","mixtral.html.vue"]]);export{m as default};
