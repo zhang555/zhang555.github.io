@@ -2,7 +2,6 @@
 title: Mixtral大模型
 index: true
 order: 1
-icon: laptop-code
 dir:
   collapsible: false
 ---
