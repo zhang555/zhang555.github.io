@@ -11,3 +11,4 @@ DreaMoving 是一个基于扩散的可控视频生成框架，用于制作高质
 阿里巴巴达摩院出品
 
 <https://dreamoving.github.io/dreamoving/>
+

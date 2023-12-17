@@ -24,9 +24,27 @@ features:
 
 
   - title: OutfitAnyone
-    details: AI换装
+    details: AI换装，开源
     link: https://modelscope.cn/studios/DAMOXR/OutfitAnyone/summary
 
+  - title: docgpt
+    details: 对doc文件内容进行问答
+    link: https://docgpt.io/
+
+
+  - title: domoai
+    details: 视频转视频
+    link: https://domoai.app/
+
+
+  - title: fal.ai
+    details: 图片实时推理， AI图片相关
+    link: https://www.fal.ai/
+
+
+  - title: LucidDreamer
+    details: 文本生成3D场景，开源
+    link: https://github.com/EnVision-Research/LucidDreamer
 
 
 #copyright: false
