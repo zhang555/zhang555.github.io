@@ -47,6 +47,23 @@ features:
     link: https://github.com/EnVision-Research/LucidDreamer
 
 
+  - title: Gen-2
+    details: runway公司产品。图片生成、视频生成
+    link: https://research.runwayml.com/gen2
+
+
+
+  - title: DemoFusion
+    details: 图片高清化，基于生成式AI，开源
+    link: https://github.com/PRIS-CV/DemoFusion
+
+
+
+  - title: magic-animate
+    details: 字节跳动开源，一张图片生成动画视频
+    link: https://github.com/magic-research/magic-animate
+
+
 #copyright: false
 #footer: MIT Licensed | Copyright © 2019-present Mr.Hope
 ---
