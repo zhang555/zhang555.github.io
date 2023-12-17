@@ -32,7 +32,7 @@ export default navbar([
   {
     text: "欢迎交流",
     icon: "book",
-    link: "contact/contact",
+    link: "/contact/",
   },
 
   // {
