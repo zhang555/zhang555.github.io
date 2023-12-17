@@ -14,9 +14,18 @@ features:
     link: https://magnific.ai/
 
   - title: krea
-    icon: fab fa-markdown
-    details: 图片增强、图片生成（免费）
+    details: 图片增强、图片生成
     link: https://www.krea.ai/home
+
+
+  - title: bard
+    details: 谷歌多模态大模型
+    link: https://bard.google.com/
+
+
+  - title: OutfitAnyone
+    details: AI换装
+    link: https://modelscope.cn/studios/DAMOXR/OutfitAnyone/summary
 
 
 

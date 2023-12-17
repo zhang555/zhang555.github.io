@@ -37,7 +37,8 @@ export default hopeTheme({
 
     blog: {
         // name: "一个程序员name",
-        description: "后端、算法工程师",
+        // description: "后端、算法工程师",
+        description: "",
         // intro: "/intro.html",
         medias: {
             // Baidu: "https://example.com",

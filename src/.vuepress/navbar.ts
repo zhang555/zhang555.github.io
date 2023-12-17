@@ -4,18 +4,17 @@ export default navbar([
   "/",
   // "/demo/",
 
-  {
-    text: "后端开发",
-    icon: "book",
-    link: "/backend/",
-  },
+  // {
+  //   text: "后端开发",
+  //   icon: "book",
+  //   link: "/backend/",
+  // },
 
   {
     text: "AI技术",
     icon: "book",
     link: "/ai/",
   },
-
 
   {
     text: "AI工具",
@@ -33,7 +32,7 @@ export default navbar([
   {
     text: "欢迎交流",
     icon: "book",
-    link: "contact",
+    link: "contact/contact",
   },
 
   // {
