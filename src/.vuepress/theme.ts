@@ -17,6 +17,8 @@ export default hopeTheme({
         url: "https://zhang555.github.io",
     },
 
+    pageInfo: false,
+
     iconAssets: "fontawesome-with-brands",
 
     logo: "https://theme-hope-assets.vuejs.press/logo.svg",

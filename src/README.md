@@ -4,7 +4,7 @@ layout: BlogHome
 icon: home
 title: 首页
 hero: false
-pageInfo: true
+pageInfo: false
 #heroImage: /logo.svg
 #heroText: 你博客的名称
 #heroFullScreen: true
