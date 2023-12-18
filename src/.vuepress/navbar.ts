@@ -11,6 +11,12 @@ export default navbar([
   // },
 
   {
+    text: "后端",
+    icon: "book",
+    link: "/backend/",
+  },
+
+  {
     text: "AI技术",
     icon: "book",
     link: "/ai/",
