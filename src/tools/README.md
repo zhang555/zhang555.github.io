@@ -58,10 +58,15 @@ features:
     link: https://github.com/PRIS-CV/DemoFusion
 
 
-
   - title: magic-animate
     details: 字节跳动开源，一张图片生成动画视频
     link: https://github.com/magic-research/magic-animate
+
+
+  - title: pika
+    details: 视频生成
+    link: https://pika.art/
+
 
 
 #copyright: false
