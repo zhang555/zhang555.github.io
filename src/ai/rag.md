@@ -1,7 +1,7 @@
 ---
 title: RAG：检索增强生成
 index: true
-order: 2
+order: 3
 dir:
   collapsible: false
 ---

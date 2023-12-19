@@ -2,7 +2,7 @@
 title: AI
 index: false
 
-order: 3
+order: 1
 
 #icon: laptop-code
 dir:
