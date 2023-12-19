@@ -4,7 +4,7 @@ index: false
 
 order: 3
 
-icon: laptop-code
+#icon: laptop-code
 dir:
     collapsible: false
 category:
