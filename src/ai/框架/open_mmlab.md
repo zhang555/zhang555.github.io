@@ -7,7 +7,4 @@ dir:
 ---
 
 
-## open-mmlab
-
-˚
 <https://github.com/open-mmlab>
