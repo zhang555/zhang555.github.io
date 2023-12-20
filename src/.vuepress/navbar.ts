@@ -45,7 +45,7 @@ export default navbar([
 
 
     {
-        text: "旧版博客",
+        text: "语雀博客",
         icon: "blog",
         link: "https://www.yuque.com/aixuexidenull/oe9u1k/",
     },
