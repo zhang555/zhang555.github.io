@@ -5,6 +5,7 @@ export default sidebar({
     "/ai/": "structure",
     "/news/": "structure",
     "/backend/": "structure",
+    "/backend/": "structure",
 })
 
 

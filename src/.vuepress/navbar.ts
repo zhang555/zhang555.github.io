@@ -5,15 +5,14 @@ export default navbar([
     // "/demo/",
 
     // {
-    //   text: "后端开发",
-    //   icon: "book",
-    //   link: "/backend/",
+    //     text: "后端",
+    //     icon: "book",
+    //     link: "/backend/",
     // },
-
     {
-        text: "后端",
+        text: "区块链",
         icon: "book",
-        link: "/backend/",
+        link: "/blockchain/",
     },
 
     {
@@ -30,12 +29,11 @@ export default navbar([
         link: "/tools/",
     },
 
-    {
-        text: "最新资讯",
-        // icon: "ellipsis",
-        icon: "lightbulb",
-        link: "/news/",
-    },
+    // {
+    //     text: "最新资讯",
+    //     icon: "lightbulb",
+    //     link: "/news/",
+    // },
 
     {
         text: "欢迎交流",
