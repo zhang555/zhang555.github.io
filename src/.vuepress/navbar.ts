@@ -23,9 +23,7 @@ export default navbar([
 
     {
         text: "AI工具",
-        // icon: "book",
         icon: "laptop-code",
-
         link: "/tools/",
     },
 
