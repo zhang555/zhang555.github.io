@@ -1,9 +1,11 @@
 ---
 title: 用geth和以太坊交互
 index: true
-order: 3
+order: 2
 dir:
   collapsible: false
+category:
+  - 以太坊
 ---
 
 
