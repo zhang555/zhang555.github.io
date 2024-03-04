@@ -7,7 +7,8 @@ dir:
 ---
 
 
-# 一：安装geth
+
+## 一：安装geth
 
 ```
 brew install ethereum
@@ -18,7 +19,7 @@ geth github网址：
 
 geth是基于golang的以太坊客户端，可以和以太坊进行交互
 
-# 二： 用geth连接以太坊
+## 二： 用geth连接以太坊
 
 以太坊有主网络（Ethereum Mainnet），有测试网络（Sepolia、Goerli 等等）
 
@@ -45,26 +46,26 @@ eth.getBalance('0xb43ae8c139caae156805be03aaf8dbe315e4823c')
 也可以通过该网站查看链上信息：
 `https://sepolia.etherscan.io/`
 
-# 三：进行mine操作
+## 三：进行mine操作
 
 可以使用这个网站，在测试链上进行mine操作
 `https://sepolia-faucet.pk910.de/`
 
-# 四：使用okx浏览器插件在sepolia上发起交易
+## 四：使用okx浏览器插件在sepolia上发起交易
 
-## 4-1：进入okx 下载安装浏览器插件钱包
+#### 4-1：进入okx 下载安装浏览器插件钱包
 
-## 4-2：在钱包中，切换到sepolia网络，获取账户地址
+#### 4-2：在钱包中，切换到sepolia网络，获取账户地址
 
-## 4-3：进行mine操作，给自己的账户地址增加一些eth
+#### 4-3：进行mine操作，给自己的账户地址增加一些eth
 
 将自己的账户地址填写到 `https://sepolia-faucet.pk910.de/` 中，进行mine操作，增加一些eth
 
-## 4-4：使用okx钱包，从自己的地址向另外一个地址发起交易
+#### 4-4：使用okx钱包，从自己的地址向另外一个地址发起交易
 
 从自己的地址向另外一个地址发起交易
 
-## 4-5：使用geth查看相关信息
+#### 4-5：使用geth查看相关信息
 
 交易后，可以查看自己地址的余额、对方地址的余额、交易信息等。
 
