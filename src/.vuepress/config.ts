@@ -10,7 +10,7 @@ export default defineUserConfig({
     base: "/",
 
     lang: "zh-CN",
-    title: "程序员弓哥",
+    title: "程序员老张",
     description: "",
 
 
