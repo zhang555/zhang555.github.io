@@ -5,7 +5,7 @@ order: 6
 dir:
   collapsible: false
 category:
-  - 以太坊
+  - 区块链
 ---
 
 ## blockscout
