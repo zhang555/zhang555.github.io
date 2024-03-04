@@ -48,3 +48,19 @@ jobs:
           # 这是文档部署到的分支名称
           branch: master
           folder: src/.vuepress/dist
+
+
+      - name: post message
+        uses: foxundermoon/feishu-action@v2
+        with:
+          url: https://open.feishu.cn/open-apis/bot/v2/hook/1f163bb3-3307-45d9-a38a-e14f514ccaeb
+          msg_type: post
+          content: |
+            post:
+              zh_cn:
+                title: github博客部署完毕
+                content:
+                - - tag: text
+                    un_escape: true
+                    text: github博客部署完毕
+            
