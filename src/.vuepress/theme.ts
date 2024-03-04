@@ -13,7 +13,7 @@ export default hopeTheme({
     hostname: "https://zhang555.github.io",
 
     author: {
-        name: "程序员弓哥",
+        name: "程序员老张",
         url: "https://zhang555.github.io",
     },
 
