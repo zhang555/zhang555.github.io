@@ -25,7 +25,35 @@ export default defineUserConfig({
 
         }),
 
-    ]
+    ],
+
+    head: [
+        // ...
+
+        // 导入一个外部脚本
+        // ["script", {src: "YOUR_SCRIPT_LINK"}],
+        // 添加一段脚本
+        [
+            "script",
+            {},
+            `\
+        <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?c6ae3773f007a9f5b4397d8f8af12c21";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+      `,
+        ],
+
+
+    ],
+
+
     // Enable it with pwa
     // shouldPrefetch: false,
 });
