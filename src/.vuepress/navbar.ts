@@ -27,6 +27,12 @@ export default navbar([
         link: "/tools/",
     },
 
+    {
+        text: "搞钱",
+        icon: "laptop-code",
+        link: "/money/",
+    },
+
     // {
     //     text: "最新资讯",
     //     icon: "lightbulb",

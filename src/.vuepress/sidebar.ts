@@ -6,6 +6,7 @@ export default sidebar({
     "/news/": "structure",
     "/backend/": "structure",
     "/blockchain/": "structure",
+    "/money/": "structure",
 })
 
 
