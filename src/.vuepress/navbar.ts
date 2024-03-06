@@ -10,9 +10,14 @@ export default navbar([
     //     link: "/backend/",
     // },
     {
-        text: "区块链",
+        text: "区块链技术",
         icon: "book",
         link: "/blockchain/",
+    },
+  {
+        text: "区块链空投",
+        icon: "book",
+        link: "/blockchain_airdrop/",
     },
 
     {
