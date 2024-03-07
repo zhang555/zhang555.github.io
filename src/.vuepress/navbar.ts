@@ -14,10 +14,15 @@ export default navbar([
         icon: "book",
         link: "/blockchain/",
     },
-  {
+    {
         text: "区块链空投",
         icon: "book",
         link: "/blockchain_airdrop/",
+    },
+    {
+        text: "交易",
+        icon: "book",
+        link: "/trade/",
     },
 
     {

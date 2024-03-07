@@ -8,6 +8,7 @@ export default sidebar({
     "/blockchain/": "structure",
     "/blockchain_airdrop/": "structure",
     "/money/": "structure",
+    "/trade/": "structure",
 })
 
 
